@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1DE9B6</color>
+    <color name="colorAccent">#000000</color>
+    <color name="colorComplementary">#E91D50</color>
+    <color name="colorAnalogous1">#1DE950</color>
+    <color name="colorAnalogous2">#1DB6E9</color>
+    <color name="colorTriadic1">#1D50E9</color>
+    <color name="colorTriadic2">#B61DE9</color>
+</resources>
