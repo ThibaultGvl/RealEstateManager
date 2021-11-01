@@ -11,11 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailsBinding
 import com.openclassrooms.realestatemanager.model.Property
-import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.insert.InsertActivity
-import com.openclassrooms.realestatemanager.ui.property.ListPropertyAdapter
-import com.synnapps.carouselview.CarouselView
-import com.synnapps.carouselview.ImageListener
 
 class DetailsFragment : Fragment() {
 
@@ -72,7 +68,7 @@ class DetailsFragment : Fragment() {
         mRecyclerView = detailsBinding.carouselView
         mRecyclerView.adapter = mAdapter
         mFab = detailsBinding.fab
-        mFab.setOnClickListener{
+        mFab.setOnClickListener {
             val intent = Intent(activity?.applicationContext, InsertActivity::class.java)
             intent.putExtra("id", mPropertyId)
             startActivity(intent)
@@ -95,7 +91,6 @@ class DetailsFragment : Fragment() {
     }
 
     private fun getProperty(property: Property) {
-        mProperty = property
         mPhotos.addAll(property.photos)
         detailsBinding.description.text = property.description
         detailsBinding.piece.text = property.piece.toString()

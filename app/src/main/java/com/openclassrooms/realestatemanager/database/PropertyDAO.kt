@@ -17,8 +17,8 @@ interface PropertyDAO {
     @Insert
     fun insertProperty(property: Property)
 
-    @Delete
-    fun deleteProperty(property: Property)
+    @Query("DELETE FROM property WHERE id = :propertyId")
+    fun deleteProperty(propertyId: Long)
 
     @Update
     fun updateProperty(property: Property)

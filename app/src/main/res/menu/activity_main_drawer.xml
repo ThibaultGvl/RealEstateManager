@@ -4,10 +4,12 @@
     tools:showIn="navigation_view">
 
     <item
+        android:id="@+id/loan_simulator_btn"
         android:title="@string/loan_simulator"
         android:icon="@drawable/ic_baseline_price_change_24"/>
 
     <item
+        android:id="@+id/property_btn"
         android:title="@string/property"
         android:icon="@drawable/ic_baseline_house_24"/>
 </menu>

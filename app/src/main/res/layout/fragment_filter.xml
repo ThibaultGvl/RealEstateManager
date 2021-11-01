@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.FilterFragment">
+
+    <TextView
+        android:id="@+id/type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="@dimen/margin_filter_default"/>
+
+    <EditText
+        android:id="@+id/type_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/type_text"
+        app:layout_constraintStart_toStartOf="@+id/type_text"
+        android:autofillHints="Enter your wanted type"/>
+
+    <TextView
+        android:id="@+id/surface_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/type_edit"
+        app:layout_constraintStart_toStartOf="@id/type_edit"
+        android:text="@string/surface"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/surface_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/surface_text"
+        app:layout_constraintTop_toBottomOf="@id/surface_text"
+        android:autofillHints="Min"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/surface_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/surface_text"
+        android:autofillHints="Max"
+        android:layout_marginEnd="@dimen/margin_filter_default"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/type_text"
+        app:layout_constraintTop_toBottomOf="@id/surface_min"
+        android:text="@string/price"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/price_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/price"
+        app:layout_constraintTop_toBottomOf="@id/price"
+        android:autofillHints="Min"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/price_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/price"
+        android:autofillHints="Max"
+        android:layout_marginEnd="@dimen/margin_filter_default"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/interest_point_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/type_text"
+        app:layout_constraintTop_toBottomOf="@id/price_max"
+        android:text="@string/point_of_interest"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/interest_point_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/interest_point_text"
+        app:layout_constraintStart_toStartOf="@+id/type_text"
+        android:autofillHints="Enter your wanted interest point"/>
+
+    <Button
+        android:id="@+id/button_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/apply_filters"
+        app:layout_constraintTop_toBottomOf="@+id/interest_point_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/colorPrimary"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

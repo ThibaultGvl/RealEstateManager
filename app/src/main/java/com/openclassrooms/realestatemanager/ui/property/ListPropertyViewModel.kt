@@ -28,8 +28,8 @@ class ListPropertyViewModel(var repository: PropertyRepository) : ViewModel() {
         repository.insertProperty(property)
     }
 
-    fun deleteProperty(property: Property) {
-        repository.deleteProperty(property)
+    fun deleteProperty(propertyId: Long) {
+        repository.deleteProperty(propertyId)
     }
 
     fun updateProperty(property: Property) {

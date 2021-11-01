@@ -52,6 +52,7 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
             if (searchView.queryHint?.let { property.type.contains(it) } == true) run {
                 val propertiesSort = ArrayList<Property>()
                 propertiesSort.add(property)
+                updateProperties(propertiesSort)
             }
         }
     }

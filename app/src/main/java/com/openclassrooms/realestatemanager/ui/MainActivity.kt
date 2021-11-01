@@ -8,16 +8,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
-import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 import com.openclassrooms.realestatemanager.ui.insert.InsertActivity
 import com.openclassrooms.realestatemanager.ui.property.ListPropertyFragment
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,8 +27,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDetailsFragment: DetailsFragment
 
     private lateinit var mDrawerLayout: DrawerLayout
-
-    private lateinit var mSearchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.action_add -> startIntentActivity()
+            R.id.action_filter -> startActivity(Intent(this, FilterActivity::class.java))
         }
 
         return super.onOptionsItemSelected(item)
@@ -80,6 +78,30 @@ class MainActivity : AppCompatActivity() {
         Objects.requireNonNull(supportActionBar)!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24)
+        mMainActivityBinding.navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.property_btn -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    if (mMainActivityBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mMainActivityBinding.drawerLayout.closeDrawer(GravityCompat.START)
+                    }
+                    true
+                }
+                R.id.loan_simulator_btn -> {
+                    startActivity(Intent(this, LoanSimulatorActivity::class.java))
+                    if (mMainActivityBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mMainActivityBinding.drawerLayout.closeDrawer(GravityCompat.START)
+                    }
+                    true
+                }
+                else -> {
+                    if (mMainActivityBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mMainActivityBinding.drawerLayout.closeDrawer(GravityCompat.START)
+                    }
+                    false
+                }
+            }
+        }
     }
 
     private fun showFragment() {

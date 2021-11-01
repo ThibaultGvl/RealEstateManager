@@ -11,10 +11,9 @@
         android:iconTint="@color/colorAnalogous1"/>
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_filter"
         android:title=""
-        android:icon="@drawable/ic_baseline_search_24"
+        android:icon="@drawable/ic_baseline_filter_list_24"
         app:showAsAction="ifRoom"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:onClick="onSearch"/>
+        android:iconTint="@color/colorAnalogous1"/>
 </menu>

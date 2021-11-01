@@ -18,8 +18,8 @@ class PropertyRepository(var propertyDAO: PropertyDAO) {
         propertyDAO.insertProperty(property)
     }
 
-    fun deleteProperty(property: Property) {
-        propertyDAO.deleteProperty(property)
+    fun deleteProperty(propertyId: Long) {
+        propertyDAO.deleteProperty(propertyId)
     }
 
     fun updateProperty(property: Property) {
