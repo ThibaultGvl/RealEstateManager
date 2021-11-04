@@ -41,76 +41,69 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         configureViewModel()
         if (arguments != null) {
-            val filter = requireArguments().getSerializable("filter") as Filter
-            var queryString = "SELECT * FROM property WHERE"
-            var argsNumber = 0
-            if (filter.type != " ") {
-                val type = filter.type
-                queryString += " type = '$type'"
-                argsNumber += 1
-            }
-            if (filter.priceMin != 0.0.toFloat()) {
-                if(argsNumber != 0) {
-                    queryString += " AND"
-                }
-                val min = filter.priceMin
-                queryString += " price > ${min.toDouble()}"
-                argsNumber += 1
-            }
-            if (filter.priceMax != 0.0.toFloat()) {
-                if(argsNumber != 0) {
-                    queryString += " AND"
-                }
-                val max = filter.priceMax
-                queryString += " price < ${max.toDouble()}"
-                argsNumber += 1
-            }
-            if (filter.surfaceMin != 0.0.toFloat()) {
-                if(argsNumber != 0) {
-                    queryString += " AND"
-                }
-                val min = filter.surfaceMin
-                queryString += " surface > ${min.toDouble()}"
-                argsNumber += 1
-            }
-            if (filter.surfaceMax != 0.0.toFloat()) {
-                if(argsNumber != 0) {
-                    queryString += " AND"
-                }
-                val max = filter.surfaceMax
-                queryString += " surface < ${max.toDouble()}"
-                argsNumber += 1
-            }
-            if (filter.interestPoint != " ") {
-                if(argsNumber != 0) {
-                    queryString += " AND"
-                }
-                val interest = filter.interestPoint
-                //Add LIKE or not ?
-                queryString += " interest_point = '$interest'"
-            }
-            val query = SimpleSQLiteQuery(queryString)
-            listPropertyViewModel.getFilterProperties(query).observe(this, this::updateProperties)
+            createRequestFilter()
         }
         else {
             listPropertyViewModel.getPropertys()?.observe(this, this::updateProperties)
         }
     }
 
+    private fun createRequestFilter() {
+        val filter = requireArguments().getSerializable("filter") as Filter
+        var queryString = "SELECT * FROM property WHERE"
+        var argsNumber = 0
+        if (filter.type != " ") {
+            val type = filter.type
+            queryString += " type = '$type'"
+            argsNumber += 1
+        }
+        if (filter.priceMin != 0.0.toFloat()) {
+            if(argsNumber != 0) {
+                queryString += " AND"
+            }
+            val min = filter.priceMin
+            queryString += " price > ${min.toDouble()}"
+            argsNumber += 1
+        }
+        if (filter.priceMax != 0.0.toFloat()) {
+            if(argsNumber != 0) {
+                queryString += " AND"
+            }
+            val max = filter.priceMax
+            queryString += " price < ${max.toDouble()}"
+            argsNumber += 1
+        }
+        if (filter.surfaceMin != 0.0.toFloat()) {
+            if(argsNumber != 0) {
+                queryString += " AND"
+            }
+            val min = filter.surfaceMin
+            queryString += " surface > ${min.toDouble()}"
+            argsNumber += 1
+        }
+        if (filter.surfaceMax != 0.0.toFloat()) {
+            if(argsNumber != 0) {
+                queryString += " AND"
+            }
+            val max = filter.surfaceMax
+            queryString += " surface < ${max.toDouble()}"
+            argsNumber += 1
+        }
+        if (filter.interestPoint != " ") {
+            if(argsNumber != 0) {
+                queryString += " AND"
+            }
+            val interest = filter.interestPoint
+            queryString += " interest_point = '$interest'"
+        }
+        val query = SimpleSQLiteQuery(queryString)
+        listPropertyViewModel.getFilterProperties(query).observe(this, this::updateProperties)
+    }
+
     private fun updateProperties(databaseList: List<Property>) {
         propertys.clear()
         propertys.addAll(databaseList)
         mAdapter.notifyDataSetChanged()
-    }
-
-    fun search(searchView: SearchView) {
-        for (property: Property in propertys) {
-            if (searchView.queryHint?.let { property.type.contains(it) } == true) run {
-                val propertiesSort = ArrayList<Property>()
-                propertiesSort.add(property)
-                updateProperties(propertiesSort)
-            }
-        }
     }
 
     private fun configureViewModel() {

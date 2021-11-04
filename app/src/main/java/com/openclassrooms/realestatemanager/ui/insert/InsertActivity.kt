@@ -119,22 +119,22 @@ class InsertActivity : AppCompatActivity() {
         mButton.text = getString(R.string.update_property)
         mButton.isEnabled = true
         val photos = mPhotos.toString().split("\\s*,\\s*")
-        val updateProperty = Property(
-                property.id,
-                mEditType.text.toString(),
-                mEditPrice.text.toString().toFloat(),
-                mEditSurface.text.toString().toFloat(),
-                mEditPiece.text.toString().toFloat(),
-                mEditDescription.text.toString(),
-                mEditAddress.text.toString(),
-                mEditInterest.text.toString(),
-                mAutoCompleteTextView.toString(),
-                mEditCreationDate.text.toString(),
-                mEditSaleDate.text.toString(),
-                photos,
-                mEditAgent.text.toString()
-        )
         mButton.setOnClickListener{
+            val updateProperty = Property(
+                    property.id,
+                    mEditType.text.toString(),
+                    mEditPrice.text.toString().toFloat(),
+                    mEditSurface.text.toString().toFloat(),
+                    mEditPiece.text.toString().toFloat(),
+                    mEditDescription.text.toString(),
+                    mEditAddress.text.toString(),
+                    mEditInterest.text.toString(),
+                    mAutoCompleteTextView.toString(),
+                    mEditCreationDate.text.toString(),
+                    mEditSaleDate.text.toString(),
+                    photos,
+                    mEditAgent.text.toString()
+            )
             insertViewModel.updateProperty(updateProperty)
             finish()
         }
