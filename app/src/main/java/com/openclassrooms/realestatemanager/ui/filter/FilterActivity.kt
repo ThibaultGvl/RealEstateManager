@@ -1,9 +1,8 @@
-package com.openclassrooms.realestatemanager.ui
+package com.openclassrooms.realestatemanager.ui.filter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 
 class FilterActivity : AppCompatActivity() {
 

@@ -8,8 +8,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.OnItemClickListener
 import com.openclassrooms.realestatemanager.databinding.FragmentListPropertyBinding
+import com.openclassrooms.realestatemanager.model.Filter
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
 
@@ -38,7 +40,61 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureViewModel()
-        listPropertyViewModel.getPropertys()?.observe(this, this::updateProperties)
+        if (arguments != null) {
+            val filter = requireArguments().getSerializable("filter") as Filter
+            var queryString = "SELECT * FROM property WHERE"
+            var argsNumber = 0
+            if (filter.type != " ") {
+                val type = filter.type
+                queryString += " type = '$type'"
+                argsNumber += 1
+            }
+            if (filter.priceMin != 0.0.toFloat()) {
+                if(argsNumber != 0) {
+                    queryString += " AND"
+                }
+                val min = filter.priceMin
+                queryString += " price > ${min.toDouble()}"
+                argsNumber += 1
+            }
+            if (filter.priceMax != 0.0.toFloat()) {
+                if(argsNumber != 0) {
+                    queryString += " AND"
+                }
+                val max = filter.priceMax
+                queryString += " price < ${max.toDouble()}"
+                argsNumber += 1
+            }
+            if (filter.surfaceMin != 0.0.toFloat()) {
+                if(argsNumber != 0) {
+                    queryString += " AND"
+                }
+                val min = filter.surfaceMin
+                queryString += " surface > ${min.toDouble()}"
+                argsNumber += 1
+            }
+            if (filter.surfaceMax != 0.0.toFloat()) {
+                if(argsNumber != 0) {
+                    queryString += " AND"
+                }
+                val max = filter.surfaceMax
+                queryString += " surface < ${max.toDouble()}"
+                argsNumber += 1
+            }
+            if (filter.interestPoint != " ") {
+                if(argsNumber != 0) {
+                    queryString += " AND"
+                }
+                val interest = filter.interestPoint
+                //Add LIKE or not ?
+                queryString += " interest_point = '$interest'"
+            }
+            val query = SimpleSQLiteQuery(queryString)
+            listPropertyViewModel.getFilterProperties(query).observe(this, this::updateProperties)
+        }
+        else {
+            listPropertyViewModel.getPropertys()?.observe(this, this::updateProperties)
+        }
     }
 
     private fun updateProperties(databaseList: List<Property>) {

@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.model.Property
 
 class PropertyRepository(var propertyDAO: PropertyDAO) {
@@ -12,6 +12,10 @@ class PropertyRepository(var propertyDAO: PropertyDAO) {
 
     fun getPropertyById(id: Long): LiveData<Property> {
         return propertyDAO.getPropertyById(id)
+    }
+
+    fun getPropertyByFilter(query: SupportSQLiteQuery): LiveData<List<Property>> {
+        return propertyDAO.getPropertyByFilter(query)
     }
 
     fun insertProperty(property: Property) {

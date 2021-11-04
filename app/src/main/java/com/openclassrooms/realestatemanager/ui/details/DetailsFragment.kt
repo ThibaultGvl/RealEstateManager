@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailsBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.insert.InsertActivity
@@ -18,8 +20,6 @@ class DetailsFragment : Fragment() {
     private lateinit var detailsBinding: FragmentDetailsBinding
 
     private lateinit var detailsViewModel: DetailsViewModel
-
-    private lateinit var mProperty: Property
 
     private var mPropertyId: Long = 1
 
@@ -78,11 +78,12 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         updateWithProperty(mPropertyId)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun updateWithProperty(id: Long) {
-        detailsViewModel.getPropertyById(id).observe(this, this::getProperty)
+        detailsViewModel.getPropertyById(id).observe(viewLifecycleOwner, this::getProperty)
     }
 
     override fun onResume() {
@@ -96,5 +97,6 @@ class DetailsFragment : Fragment() {
         detailsBinding.piece.text = property.piece.toString()
         detailsBinding.surface.text = property.surface.toString()
         detailsBinding.position.text = property.address
+
     }
 }

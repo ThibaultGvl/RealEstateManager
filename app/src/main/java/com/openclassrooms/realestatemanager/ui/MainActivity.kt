@@ -6,14 +6,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
+import com.openclassrooms.realestatemanager.model.Filter
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
+import com.openclassrooms.realestatemanager.ui.filter.FilterActivity
 import com.openclassrooms.realestatemanager.ui.insert.InsertActivity
 import com.openclassrooms.realestatemanager.ui.property.ListPropertyFragment
 import java.util.*
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerLayout: DrawerLayout
 
+    private lateinit var mFilter: Filter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mMainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,6 +38,15 @@ class MainActivity : AppCompatActivity() {
         configureToolBar()
         showFragment()
         setContentView(view)
+        if (intent.extras != null && intent.getSerializableExtra("filter") != null) {
+            mFilter = intent.getSerializableExtra("filter") as Filter
+            val bundle = Bundle()
+            bundle.putSerializable("filter", mFilter)
+            mListPropertyFragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, mListPropertyFragment)
+                    .commit()
+        }
     }
 
     override fun onResume() {
@@ -45,11 +57,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
-    }
-
-    fun onSearch(menuItem: MenuItem) {
-        val searchView = menuItem as SearchView
-        mListPropertyFragment.search(searchView)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
