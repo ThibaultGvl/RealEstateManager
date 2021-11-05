@@ -11,7 +11,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
 
-
 class InsertActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityInsertBinding
@@ -95,14 +94,17 @@ class InsertActivity : AppCompatActivity() {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)}
+            startActivityForResult(intent, PICK_IMAGE)
+        }
         mButtonTake.setOnClickListener{
-            intent = Intent(ACTION_IMAGE_CAPTURE)
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent(ACTION_IMAGE_CAPTURE).toString()
             startActivityForResult(intent, PICK_IMAGE)
         }
         mButton.setOnClickListener {
             if(inputComplete()) {
-                    createNewProperty()
+                createNewProperty()
             }
             else {
                 Toast.makeText(baseContext, "All information must be registered", Toast.LENGTH_SHORT).show()
@@ -166,8 +168,12 @@ class InsertActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE) {
-            mPhotos.add(data?.data!!)
+            data?.data?.let { addUriToList(it) }
         }
+    }
+
+    private fun addUriToList(uri: Uri) {
+        mPhotos.add(uri)
     }
 
     private fun inputComplete(): Boolean {
