@@ -138,8 +138,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/create_property"
             android:textColor="#000"
-            android:background="@color/colorPrimary"
-            android:enabled="false"/>
+            android:background="@color/colorPrimary"/>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

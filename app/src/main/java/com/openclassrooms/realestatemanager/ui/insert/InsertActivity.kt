@@ -64,7 +64,6 @@ class InsertActivity : AppCompatActivity() {
         insertViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(InsertViewModel::class.java)
         createView()
-        mButton.setOnClickListener { createNewProperty() }
         insertViewModel.getProperties().observe(this, {id = it.size.toLong() + 1})
         setContentView(view)
         if (intent.extras != null) {
@@ -101,8 +100,14 @@ class InsertActivity : AppCompatActivity() {
             intent = Intent(ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, PICK_IMAGE)
         }
-        inputComplete()
-        mButton.setOnClickListener{createNewProperty()}
+        mButton.setOnClickListener {
+            if(inputComplete()) {
+                    createNewProperty()
+            }
+            else {
+                Toast.makeText(baseContext, "All information must be registered", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun getPropertyToModify(property: Property) {
@@ -117,7 +122,6 @@ class InsertActivity : AppCompatActivity() {
         mEditSaleDate.setText(property.sellDate)
         mEditAgent.setText(property.agent)
         mButton.text = getString(R.string.update_property)
-        mButton.isEnabled = true
         val photos = mPhotos.toString().split("\\s*,\\s*")
         mButton.setOnClickListener{
             val updateProperty = Property(
@@ -156,6 +160,7 @@ class InsertActivity : AppCompatActivity() {
                 photos,
                 mEditAgent.text.toString())
         insertViewModel.createProperty(property)
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -165,8 +170,8 @@ class InsertActivity : AppCompatActivity() {
         }
     }
 
-    private fun inputComplete() {
-        mButton.isEnabled = (mEditType.text.isNotEmpty() && mEditPrice.text.isNotEmpty()
+    private fun inputComplete(): Boolean {
+        return (mEditType.text.isNotEmpty() && mEditPrice.text.isNotEmpty()
                 && mEditSurface.text.isNotEmpty() && mEditPrice.text.isNotEmpty()
                 && mEditDescription.text.isNotEmpty() && mEditAddress.text.isNotEmpty()
                 && mEditInterest.text.isNotEmpty() && mEditCreationDate.text.isNotEmpty())

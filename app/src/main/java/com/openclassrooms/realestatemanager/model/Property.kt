@@ -8,6 +8,7 @@ import kotlin.collections.ArrayList
 
 @Entity(tableName = "property")
 data class Property(@PrimaryKey(autoGenerate = true)
+                    @ColumnInfo(name = "id")
                     val id: Long = 0,
                     @ColumnInfo(name = "type")
                     var type: String,
