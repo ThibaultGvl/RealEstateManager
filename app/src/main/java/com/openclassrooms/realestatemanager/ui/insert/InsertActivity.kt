@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.insert
 
+import android.R.attr
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
+
 
 class InsertActivity : AppCompatActivity() {
 
@@ -53,6 +55,8 @@ class InsertActivity : AppCompatActivity() {
 
     private var mPropertyId: Long = 0
 
+    private lateinit var uri: Uri
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityInsertBinding.inflate(layoutInflater)
@@ -63,11 +67,12 @@ class InsertActivity : AppCompatActivity() {
         insertViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(InsertViewModel::class.java)
         createView()
-        insertViewModel.getProperties().observe(this, {id = it.size.toLong() + 1})
+        insertViewModel.getProperties().observe(this, { id = it.size.toLong() + 1 })
         setContentView(view)
         if (intent.extras != null) {
             mPropertyId = intent.extras?.getLong("id")!!
-            insertViewModel.getPropertyById(mPropertyId).observe(this, this::getPropertyToModify)
+            insertViewModel.getPropertyById(mPropertyId)
+                    .observe(this, this::getPropertyToModify)
         }
     }
 
@@ -94,13 +99,13 @@ class InsertActivity : AppCompatActivity() {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(intent, PICK_IMAGE)
+            startActivityForResult(Intent.createChooser(intent, "Pick Image"), PICK_IMAGE)
         }
         mButtonTake.setOnClickListener{
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent(ACTION_IMAGE_CAPTURE).toString()
-            startActivityForResult(intent, PICK_IMAGE)
+            startActivityForResult(Intent.createChooser(intent, "Pick Image"), PICK_IMAGE)
         }
         mButton.setOnClickListener {
             if(inputComplete()) {
@@ -124,8 +129,8 @@ class InsertActivity : AppCompatActivity() {
         mEditSaleDate.setText(property.sellDate)
         mEditAgent.setText(property.agent)
         mButton.text = getString(R.string.update_property)
-        val photos = mPhotos.toString().split("\\s*,\\s*")
         mButton.setOnClickListener{
+            val photos = mPhotos.toString().split("\\s*,\\s*")
             val updateProperty = Property(
                     property.id,
                     mEditType.text.toString(),
@@ -167,8 +172,16 @@ class InsertActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE) {
-            data?.data?.let { addUriToList(it) }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == requestCode) {
+                val selectedImageUri: Uri? = data?.data!!
+                if (null != selectedImageUri) {
+                    data.data?.let { uri = it }
+                    Toast.makeText(baseContext, "This photo has been had with success",
+                            Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
 
