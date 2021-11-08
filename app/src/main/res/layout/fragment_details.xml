@@ -135,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/position_title"
-        app:layout_constraintStart_toStartOf="@id/position_title"
+        app:layout_constraintEnd_toEndOf="@id/position_title"
         android:text="@string/location"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

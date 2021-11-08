@@ -41,7 +41,6 @@ abstract class Database: RoomDatabase() {
                 override fun onCreate(@NonNull db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     val loft = ContentValues()
-                    loft.put("id", 0)
                     loft.put("type", "Loft")
                     loft.put("price", 1499999)
                     loft.put("surface", 125)
@@ -56,7 +55,6 @@ abstract class Database: RoomDatabase() {
                     loft.put("agent", "Thibault")
                     db.insert("property", OnConflictStrategy.IGNORE, loft)
                     val house = ContentValues()
-                    house.put("id", 1)
                     house.put("type", "House")
                     house.put("price", 5400000)
                     house.put("surface", 205)

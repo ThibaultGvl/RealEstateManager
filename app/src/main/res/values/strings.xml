@@ -53,4 +53,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="type">Type</string>
     <string name="apply_filters">Apply Filters</string>
+    <string name="update_notification_message">This property has been update with success</string>
+    <string name="created_notification_message">This estate has been create with success</string>
 </resources>

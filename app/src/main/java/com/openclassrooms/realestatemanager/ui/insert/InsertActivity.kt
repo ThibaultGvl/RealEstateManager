@@ -1,16 +1,23 @@
 package com.openclassrooms.realestatemanager.ui.insert
 
-import android.R.attr
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.ui.MainActivity
 
 
 class InsertActivity : AppCompatActivity() {
@@ -18,8 +25,6 @@ class InsertActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityInsertBinding
 
     private lateinit var insertViewModel: InsertViewModel
-
-    private var PICK_IMAGE = 1
 
     private var id: Long = 0
 
@@ -74,6 +79,12 @@ class InsertActivity : AppCompatActivity() {
             insertViewModel.getPropertyById(mPropertyId)
                     .observe(this, this::getPropertyToModify)
         }
+        mButtonGallery.setOnClickListener{
+            selectImageInAlbum()
+        }
+        mButtonTake.setOnClickListener{
+            takePhoto()
+        }
     }
 
     private fun createView() {
@@ -95,18 +106,6 @@ class InsertActivity : AppCompatActivity() {
         mButtonGallery = mBinding.gallery
         mButtonTake = mBinding.apn
         mButton = mBinding.createBtn
-        mButtonGallery.setOnClickListener{
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Pick Image"), PICK_IMAGE)
-        }
-        mButtonTake.setOnClickListener{
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent(ACTION_IMAGE_CAPTURE).toString()
-            startActivityForResult(Intent.createChooser(intent, "Pick Image"), PICK_IMAGE)
-        }
         mButton.setOnClickListener {
             if(inputComplete()) {
                 createNewProperty()
@@ -147,6 +146,7 @@ class InsertActivity : AppCompatActivity() {
                     mEditAgent.text.toString()
             )
             insertViewModel.updateProperty(updateProperty)
+            sendVisualNotification(getString(R.string.update_notification_message))
             finish()
         }
     }
@@ -167,7 +167,33 @@ class InsertActivity : AppCompatActivity() {
                 photos,
                 mEditAgent.text.toString())
         insertViewModel.createProperty(property)
+        sendVisualNotification(getString(R.string.created_notification_message))
         finish()
+    }
+
+    private fun selectImageInAlbum() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        if (intent.resolveActivity(packageManager) != null) {
+            try {
+                startActivityForResult(intent, REQUEST_SELECT_IMAGE_IN_ALBUM)
+            }
+            catch (ex: ActivityNotFoundException) {
+                Toast.makeText(baseContext, "Error", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun takePhoto() {
+        val intent1 = Intent(ACTION_IMAGE_CAPTURE)
+        if (intent1.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent1, REQUEST_TAKE_PHOTO)
+        }
+    }
+
+    companion object {
+        private val REQUEST_TAKE_PHOTO = 0
+        private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -181,12 +207,29 @@ class InsertActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
     }
 
-    private fun addUriToList(uri: Uri) {
-        mPhotos.add(uri)
+
+    private fun sendVisualNotification(message: String) {
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val channelId = "CREATION_NOTIFICATION"
+        val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(pendingIntent)
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName: CharSequence = "Notification Creation"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val mChannel = NotificationChannel(channelId, channelName, importance)
+            notificationManager.createNotificationChannel(mChannel)
+        }
+        notificationManager.notify(0, notificationBuilder.build())
     }
 
     private fun inputComplete(): Boolean {

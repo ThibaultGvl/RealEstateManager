@@ -26,7 +26,7 @@ class ListPropertyAdapter(private val listPropertys: List<Property>,
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val property = listPropertys[position]
         holder.updateWithProperty(property)
-        holder.itemView.setOnClickListener{listener.onItemClick(property.id)}
+        holder.itemView.setOnClickListener{ property.id?.let { it1 -> listener.onItemClick(it1) } }
     }
 
     override fun getItemCount(): Int {
