@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 
-class PhotosAdapter(private val photos: List<String>) : RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>(){
+class PhotosAdapter(private val photos: ArrayList<String>) : RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>(){
 
     private val mPhotos = ArrayList<Uri>()
 
@@ -24,7 +24,8 @@ class PhotosAdapter(private val photos: List<String>) : RecyclerView.Adapter<Pho
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         for (photo in photos) {
-            val uri = Uri.parse(photo)
+            val uriToTransform = photo.subSequence(2, photo.length -2) as String?
+            val uri = Uri.parse(uriToTransform)
             mPhotos.add(uri)
         }
         val photosPosition = mPhotos[position]

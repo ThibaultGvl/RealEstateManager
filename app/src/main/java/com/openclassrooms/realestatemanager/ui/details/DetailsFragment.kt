@@ -35,7 +35,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mRecyclerView: RecyclerView
 
-    private var mAdapter = PhotosAdapter(mPhotos)
+    private lateinit var mAdapter: PhotosAdapter
 
     private lateinit var mGoogleMap: GoogleMap
 
@@ -73,8 +73,6 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         detailsViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(DetailsViewModel::class.java)
         updateWithProperty(mPropertyId)
-        mRecyclerView = detailsBinding.carouselView
-        mRecyclerView.adapter = mAdapter
         mFab = detailsBinding.fab
         mFab.setOnClickListener {
             val intent = Intent(activity?.applicationContext, InsertActivity::class.java)
@@ -100,7 +98,9 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getProperty(property: Property) {
-        mPhotos.addAll(property.photos)
+        mAdapter = PhotosAdapter(property.photos)
+        mRecyclerView = detailsBinding.carouselView
+        mRecyclerView.adapter = mAdapter
         detailsBinding.description.text = property.description
         detailsBinding.piece.text = property.piece.toString()
         detailsBinding.surface.text = property.surface.toString()

@@ -26,7 +26,7 @@ class ListPropertyAdapter(private val listPropertys: List<Property>,
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val property = listPropertys[position]
         holder.updateWithProperty(property)
-        holder.itemView.setOnClickListener{ property.id?.let { it1 -> listener.onItemClick(it1) } }
+        holder.itemView.setOnClickListener{ property.id.let { it1 -> listener.onItemClick(it1) } }
     }
 
     override fun getItemCount(): Int {
@@ -40,7 +40,8 @@ class ListPropertyAdapter(private val listPropertys: List<Property>,
         private val mPrice: TextView = itemView.findViewById(R.id.price)
 
         fun updateWithProperty(property: Property) {
-            val photo = Uri.parse(property.photos[0])
+            val uri = property.photos[0].subSequence(2, property.photos[0].length -2)
+            val photo = Uri.parse(uri as String?)
             Glide.with(mPicture).load(photo).into(mPicture)
             mPlace.text = property.address
             mPrice.text = property.price.toString()

@@ -9,7 +9,7 @@ import kotlin.collections.ArrayList
 @Entity(tableName = "property")
 data class Property(@PrimaryKey(autoGenerate = true)
                     @ColumnInfo(name = "id")
-                    val id: Long,
+                    var id: Long = 0,
                     @ColumnInfo(name = "type")
                     var type: String,
                     @ColumnInfo(name = "price")
@@ -32,6 +32,6 @@ data class Property(@PrimaryKey(autoGenerate = true)
                     var sellDate: String,
                     @ColumnInfo(name = "photos")
                     @TypeConverters(Converter::class)
-                    var photos: List<String>,
+                    var photos: ArrayList<String>,
                     @ColumnInfo(name = "agent")
                     var agent: String)

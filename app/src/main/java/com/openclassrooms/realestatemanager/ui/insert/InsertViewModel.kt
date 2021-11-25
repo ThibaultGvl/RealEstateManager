@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.insert
 
+import android.graphics.Picture
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.database.PropertyRepository

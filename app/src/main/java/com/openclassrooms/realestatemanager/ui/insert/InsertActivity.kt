@@ -1,17 +1,20 @@
 package com.openclassrooms.realestatemanager.ui.insert
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
@@ -59,8 +62,6 @@ class InsertActivity : AppCompatActivity() {
     private lateinit var mButton: Button
 
     private var mPropertyId: Long = 0
-
-    private lateinit var uri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,7 +130,11 @@ class InsertActivity : AppCompatActivity() {
         mEditAgent.setText(property.agent)
         mButton.text = getString(R.string.update_property)
         mButton.setOnClickListener{
-            val photos = mPhotos.toString().split("\\s*,\\s*")
+            val photosList = mPhotos.toString().split("\\s*,\\s*")
+            val photos = ArrayList<String>()
+            for (photo in photosList) {
+                photos.add(photo)
+            }
             val updateProperty = Property(
                     property.id,
                     mEditType.text.toString(),
@@ -152,7 +157,11 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun createNewProperty() {
-        val photos = mPhotos.toString().split("\\s*,\\s*")
+        val photosList = mPhotos.toString().split("\\s*,\\s*") as ArrayList
+        val photos = ArrayList<String>()
+        for (photo in photosList) {
+            photos.add(photo)
+        }
         val property = Property(id,
                 mEditType.text.toString(),
                 mEditPrice.text.toString().toFloat(),
@@ -172,22 +181,15 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun selectImageInAlbum() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        if (intent.resolveActivity(packageManager) != null) {
-            try {
-                startActivityForResult(intent, REQUEST_SELECT_IMAGE_IN_ALBUM)
-            }
-            catch (ex: ActivityNotFoundException) {
-                Toast.makeText(baseContext, "Error", Toast.LENGTH_SHORT).show()
-            }
-        }
+        val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        i.type = "image/*"
+        startActivityForResult(i, REQUEST_SELECT_IMAGE_IN_ALBUM)
     }
 
     private fun takePhoto() {
-        val intent1 = Intent(ACTION_IMAGE_CAPTURE)
-        if (intent1.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent1, REQUEST_TAKE_PHOTO)
+        val callCameraIntent = Intent(ACTION_IMAGE_CAPTURE)
+        if (callCameraIntent.resolveActivity(packageManager) != null) {
+            startActivityForResult(callCameraIntent, REQUEST_TAKE_PHOTO)
         }
     }
 
@@ -198,18 +200,25 @@ class InsertActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == requestCode) {
-                val selectedImageUri: Uri? = data?.data!!
-                if (null != selectedImageUri) {
-                    data.data?.let { uri = it }
-                    Toast.makeText(baseContext, "This photo has been had with success",
-                            Toast.LENGTH_SHORT).show()
-                }
+        if (resultCode == RESULT_OK && requestCode == REQUEST_SELECT_IMAGE_IN_ALBUM &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            val selectedImage: Uri? = data?.data
+            if (selectedImage != null) {
+                updateWithPhoto(selectedImage)
+            }
+        }
+        if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            val imageToked: Uri? = data?.data
+            if (imageToked != null) {
+                updateWithPhoto(imageToked)
             }
         }
     }
 
+    private fun updateWithPhoto(uri: Uri) {
+        mPhotos.add(uri)
+    }
 
     private fun sendVisualNotification(message: String) {
         val intent = Intent(this, MainActivity::class.java)

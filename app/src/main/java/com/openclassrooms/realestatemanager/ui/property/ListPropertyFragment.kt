@@ -58,8 +58,10 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
             argsNumber += 1
         }
         if (filter.priceMin != 0.0.toFloat()) {
-            if(argsNumber != 0) {
-                queryString += " AND"
+            queryString += if(argsNumber != 0) {
+                " AND"
+            } else {
+                " WHERE"
             }
             val min = filter.priceMin
             queryString += " price > ${min.toDouble()}"
@@ -91,10 +93,10 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
         }
         if (filter.interestPoint != " ") {
             if(argsNumber != 0) {
-                queryString += " AND"
+                queryString += " WHERE"
             }
             val interest = filter.interestPoint
-            queryString += " interest_point = '$interest'"
+            queryString += " interest_point LIKE '%$interest%'"
         }
         val query = SimpleSQLiteQuery(queryString)
         listPropertyViewModel.getFilterProperties(query).observe(this, this::updateProperties)
