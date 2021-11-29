@@ -182,7 +182,7 @@ class InsertActivity : AppCompatActivity() {
 
     private fun selectImageInAlbum() {
         val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        i.type = "image/*"
+        i.addCategory(Intent.CATEGORY_OPENABLE)
         startActivityForResult(i, REQUEST_SELECT_IMAGE_IN_ALBUM)
     }
 
@@ -203,9 +203,11 @@ class InsertActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK && requestCode == REQUEST_SELECT_IMAGE_IN_ALBUM &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            val selectedImage: Uri? = data?.data
-            if (selectedImage != null) {
-                updateWithPhoto(selectedImage)
+            val uri = intent.data
+            val takeFlags = intent.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            if (uri != null) {
+                this.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                updateWithPhoto(uri)
             }
         }
         if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
