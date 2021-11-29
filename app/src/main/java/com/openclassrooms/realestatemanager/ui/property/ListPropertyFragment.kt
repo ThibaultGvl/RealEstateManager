@@ -50,11 +50,11 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
 
     private fun createRequestFilter() {
         val filter = requireArguments().getSerializable("filter") as Filter
-        var queryString = "SELECT * FROM property WHERE"
+        var queryString = "SELECT * FROM property"
         var argsNumber = 0
         if (filter.type != " ") {
             val type = filter.type
-            queryString += " type = '$type'"
+            queryString += " WHERE type = '$type'"
             argsNumber += 1
         }
         if (filter.priceMin != 0.0.toFloat()) {

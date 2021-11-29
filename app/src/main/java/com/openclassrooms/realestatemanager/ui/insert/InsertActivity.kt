@@ -26,42 +26,26 @@ import com.openclassrooms.realestatemanager.ui.MainActivity
 class InsertActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityInsertBinding
-
     private lateinit var insertViewModel: InsertViewModel
-
     private var id: Long = 0
-
     private var mPhotos = ArrayList<Uri>()
-
     private lateinit var mEditType: EditText
-
     private lateinit var mEditAddress: EditText
-
     private lateinit var mEditAgent: EditText
-
     private lateinit var mEditDescription: EditText
-
     private lateinit var mEditInterest: EditText
-
     private lateinit var mEditPrice: EditText
-
     private lateinit var mEditPiece: EditText
-
     private lateinit var mEditSurface: EditText
-
     private lateinit var mEditCreationDate: EditText
-
     private lateinit var mEditSaleDate: EditText
-
     private lateinit var mAutoCompleteTextView: Spinner
-
     private lateinit var mButtonGallery: Button
-
     private lateinit var mButtonTake: Button
-
     private lateinit var mButton: Button
-
     private var mPropertyId: Long = 0
+    private val REQUEST_TAKE_PHOTO = 0
+    private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,21 +177,16 @@ class InsertActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        private val REQUEST_TAKE_PHOTO = 0
-        private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_SELECT_IMAGE_IN_ALBUM &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            val uri = intent.data
-            val takeFlags = intent.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            if (uri != null) {
-                this.contentResolver.takePersistableUriPermission(uri, takeFlags)
-                updateWithPhoto(uri)
+            val uri = data?.data
+            val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+            if (uri != null && takeFlags != null) {
+                    this.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    updateWithPhoto(uri)
             }
         }
         if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
