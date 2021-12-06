@@ -10,17 +10,25 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
+import android.provider.MediaStore.EXTRA_OUTPUT
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class InsertActivity : AppCompatActivity() {
@@ -46,6 +54,7 @@ class InsertActivity : AppCompatActivity() {
     private var mPropertyId: Long = 0
     private val REQUEST_TAKE_PHOTO = 0
     private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
+    lateinit var mCurrentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,10 +180,11 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun takePhoto() {
-        val callCameraIntent = Intent(ACTION_IMAGE_CAPTURE)
-        if (callCameraIntent.resolveActivity(packageManager) != null) {
-            startActivityForResult(callCameraIntent, REQUEST_TAKE_PHOTO)
-        }
+        val m_intent = Intent(ACTION_IMAGE_CAPTURE)
+        val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
+        val uri = FileProvider.getUriForFile(this,  "com.openclassrooms.realestatemanager.provider", file)
+        m_intent.putExtra(EXTRA_OUTPUT, uri)
+        startActivityForResult(m_intent, REQUEST_TAKE_PHOTO)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -190,15 +200,33 @@ class InsertActivity : AppCompatActivity() {
             }
         }
         if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            val imageToked: Uri? = data?.data
-            if (imageToked != null) {
-                updateWithPhoto(imageToked)
+            val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
+            val uri = FileProvider.getUriForFile(this, this.applicationContext.packageName + ".provider", file)
+            val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+            if (uri != null && takeFlags != null) {
+                this.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                updateWithPhoto(uri)
             }
         }
     }
 
     private fun updateWithPhoto(uri: Uri) {
         mPhotos.add(uri)
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+                "JPEG_${timeStamp}_", /* prefix */
+                ".jpg", /* suffix */
+                storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            mCurrentPhotoPath = absolutePath
+        }
     }
 
     private fun sendVisualNotification(message: String) {
