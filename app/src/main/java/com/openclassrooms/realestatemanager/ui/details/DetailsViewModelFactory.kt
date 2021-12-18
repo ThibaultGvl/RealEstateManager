@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.database.PropertyRepository
+import com.openclassrooms.realestatemanager.ui.MapsViewModel
 import com.openclassrooms.realestatemanager.ui.property.ListPropertyViewModel
 import java.lang.IllegalArgumentException
 import java.util.concurrent.Executor
@@ -13,6 +14,9 @@ class DetailsViewModelFactory(var propertyRepository: PropertyRepository, var ex
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
             return DetailsViewModel(propertyRepository, executor) as T
+        }
+        if (modelClass.isAssignableFrom(MapsViewModel::class.java)){
+            return MapsViewModel(propertyRepository, executor) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

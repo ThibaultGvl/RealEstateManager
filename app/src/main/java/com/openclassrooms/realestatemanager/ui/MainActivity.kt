@@ -101,6 +101,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+                R.id.map_btn -> {
+                    startActivity(Intent(this, MapsActivity::class.java))
+                    if (mMainActivityBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mMainActivityBinding.drawerLayout.closeDrawer(GravityCompat.START)
+                    }
+                    true
+                }
                 else -> {
                     if (mMainActivityBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                         mMainActivityBinding.drawerLayout.closeDrawer(GravityCompat.START)

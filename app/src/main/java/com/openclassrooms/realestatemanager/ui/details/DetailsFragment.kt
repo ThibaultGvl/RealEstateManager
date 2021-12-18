@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -114,7 +115,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         mGoogleMap = map
     }
 
-    private fun getLocationFromAddress(context: Context?, strAddress: String?): LatLng? {
+    fun getLocationFromAddress(context: Context?, strAddress: String?): LatLng? {
         val coder = Geocoder(context)
         val address: List<Address>?
         var p1: LatLng? = null

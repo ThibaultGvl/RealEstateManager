@@ -12,4 +12,9 @@
         android:id="@+id/property_btn"
         android:title="@string/property"
         android:icon="@drawable/ic_baseline_house_24"/>
+
+    <item
+        android:id="@+id/map_btn"
+        android:title="@string/location"
+        android:icon="@drawable/ic_baseline_location_24"/>
 </menu>

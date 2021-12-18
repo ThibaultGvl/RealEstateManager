@@ -13,8 +13,6 @@ class ListPropertyViewModel(var repository: PropertyRepository) : ViewModel() {
 
     var propertysMutableLiveData: LiveData<List<Property>>? = null
 
-    var propertyMutableLiveData: MutableLiveData<Property>? = null
-
     fun initPropertys() {
         if (propertysMutableLiveData != null) {
             return

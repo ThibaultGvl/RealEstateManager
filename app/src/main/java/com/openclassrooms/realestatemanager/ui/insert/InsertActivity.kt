@@ -18,6 +18,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
@@ -55,6 +56,7 @@ class InsertActivity : AppCompatActivity() {
     private val REQUEST_TAKE_PHOTO = 0
     private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
     lateinit var mCurrentPhotoPath: String
+    private lateinit var mUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,9 +183,11 @@ class InsertActivity : AppCompatActivity() {
 
     private fun takePhoto() {
         val m_intent = Intent(ACTION_IMAGE_CAPTURE)
-        val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
-        val uri = FileProvider.getUriForFile(this,  "com.openclassrooms.realestatemanager.provider", file)
-        m_intent.putExtra(EXTRA_OUTPUT, uri)
+        val file: File = File.createTempFile(
+                "IMG_", ".jpg",
+                applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        mUri = FileProvider.getUriForFile(this,  "com.openclassrooms.realestatemanager.provider", file)
+        m_intent.putExtra(EXTRA_OUTPUT, mUri)
         startActivityForResult(m_intent, REQUEST_TAKE_PHOTO)
     }
 
@@ -200,13 +204,7 @@ class InsertActivity : AppCompatActivity() {
             }
         }
         if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
-            val uri = FileProvider.getUriForFile(this, this.applicationContext.packageName + ".provider", file)
-            val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
-            if (uri != null && takeFlags != null) {
-                this.contentResolver.takePersistableUriPermission(uri, takeFlags)
-                updateWithPhoto(uri)
-            }
+            updateWithPhoto(mUri)
         }
     }
 
