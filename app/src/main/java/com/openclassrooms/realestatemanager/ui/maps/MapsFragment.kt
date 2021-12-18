@@ -1,13 +1,11 @@
-package com.openclassrooms.realestatemanager.ui
+package com.openclassrooms.realestatemanager.ui.maps
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Property
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
-import com.openclassrooms.realestatemanager.ui.details.DetailsInjection
-import com.openclassrooms.realestatemanager.ui.details.DetailsViewModel
+import com.openclassrooms.realestatemanager.Injection
 
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
@@ -47,13 +44,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         mMapsBinding = FragmentMapsBinding.inflate(inflater, container, false)
-        val detailsInjection = DetailsInjection::class.java
-        val mViewModelFactory = detailsInjection.newInstance()
-                .provideViewModelFactory(this.requireContext())
-        mapsViewModel = ViewModelProvider(this, mViewModelFactory)
-                .get(MapsViewModel::class.java)
-        mapsViewModel.initProperties()
-        mapsViewModel.getProperties()?.observe(viewLifecycleOwner, this::initProperties)
+        configureViewModel()
         mLocationManager = context?.getSystemService(Context.LOCATION_SERVICE)!! as LocationManager
         return mMapsBinding.root
     }
@@ -76,10 +67,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             val mLocationGPS: Location? = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             val latLng = mLocationGPS?.let { LatLng(it.latitude, mLocationGPS.longitude) }
             latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 17F) }?.let { mMap.moveCamera(it) }
-            for(property in mProperties) {
-                val position = DetailsFragment().getLocationFromAddress(context, property.address)
-                position?.let { MarkerOptions().position(it) }?.let { mMap.addMarker(it) }
-            }
+            mapsViewModel.getProperties()?.observe(viewLifecycleOwner, this::initProperties)
         } else {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     PERMISSION_ID)
@@ -87,7 +75,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun initProperties(list: List<com.openclassrooms.realestatemanager.model.Property>) {
-        mProperties.clear()
-        mProperties.addAll(list)
+        for(property in list) {
+            val position = DetailsFragment().getLocationFromAddress(context, property.address)
+            position?.let { MarkerOptions().position(it) }?.let { mMap.addMarker(it) }
+        }
+    }
+
+    private fun configureViewModel() {
+        val injection = Injection::class.java
+        val mViewModelFactory = injection.newInstance()
+                .provideViewModelFactory(this.requireContext())
+        mapsViewModel = ViewModelProvider(this, mViewModelFactory)
+                .get(MapsViewModel::class.java)
+        mapsViewModel.initProperties()
     }
 }

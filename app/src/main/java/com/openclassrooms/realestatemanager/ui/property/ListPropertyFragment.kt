@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +13,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentListPropertyBind
 import com.openclassrooms.realestatemanager.model.Filter
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.Injection
 
 class ListPropertyFragment : Fragment(), OnItemClickListener {
 
@@ -109,8 +109,8 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
     }
 
     private fun configureViewModel() {
-        val listPropertyInjection = ListPropertyInjection::class.java
-        val mViewModelFactory = listPropertyInjection.newInstance()
+        val injection = Injection::class.java
+        val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(this.requireContext())
         listPropertyViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(ListPropertyViewModel::class.java)

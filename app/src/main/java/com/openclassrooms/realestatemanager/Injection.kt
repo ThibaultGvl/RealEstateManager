@@ -1,13 +1,12 @@
-package com.openclassrooms.realestatemanager.ui.details
+package com.openclassrooms.realestatemanager
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.Database
 import com.openclassrooms.realestatemanager.database.PropertyRepository
-import com.openclassrooms.realestatemanager.ui.property.ListPropertyViewModelFactory
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class DetailsInjection {
+class Injection {
     fun providePropertyDataSource(context: Context): PropertyRepository {
         val mDataBase = Database.getInstance(context)
         return PropertyRepository(mDataBase.propertyDao)
@@ -17,9 +16,9 @@ class DetailsInjection {
         return Executors.newSingleThreadExecutor()
     }
 
-    fun provideViewModelFactory(context: Context): DetailsViewModelFactory {
+    fun provideViewModelFactory(context: Context): ViewModelFactory {
         val propertyRepository = providePropertyDataSource(context)
         val executor = provideExecutor()
-        return DetailsViewModelFactory(propertyRepository, executor)
+        return ViewModelFactory(propertyRepository, executor)
     }
 }

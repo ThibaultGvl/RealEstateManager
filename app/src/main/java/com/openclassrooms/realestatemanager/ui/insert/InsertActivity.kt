@@ -18,13 +18,13 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.Injection
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -62,8 +62,8 @@ class InsertActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityInsertBinding.inflate(layoutInflater)
         val view = mBinding.root
-        val insertInjection = InsertInjection::class.java
-        val mViewModelFactory = insertInjection.newInstance()
+        val injection = Injection::class.java
+        val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(applicationContext)
         insertViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(InsertViewModel::class.java)

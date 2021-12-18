@@ -16,6 +16,7 @@ import com.openclassrooms.realestatemanager.ui.details.DetailsActivity
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 import com.openclassrooms.realestatemanager.ui.filter.FilterActivity
 import com.openclassrooms.realestatemanager.ui.insert.InsertActivity
+import com.openclassrooms.realestatemanager.ui.maps.MapsActivity
 import com.openclassrooms.realestatemanager.ui.property.ListPropertyFragment
 import java.util.*
 

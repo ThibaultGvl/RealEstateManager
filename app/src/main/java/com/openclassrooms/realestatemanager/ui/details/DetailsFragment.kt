@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.openclassrooms.realestatemanager.Injection
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailsBinding
 import com.openclassrooms.realestatemanager.model.Property
@@ -68,8 +68,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         if (id != null) {
             mPropertyId = id
         }
-        val detailsInjection = DetailsInjection::class.java
-        val mViewModelFactory = detailsInjection.newInstance()
+        val injection = Injection::class.java
+        val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(this.requireContext())
         detailsViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(DetailsViewModel::class.java)
