@@ -19,4 +19,14 @@ class Converter {
     fun convertPhotoToString(photo: ArrayList<String>): String {
         return photo.toString()
     }
+
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
 }

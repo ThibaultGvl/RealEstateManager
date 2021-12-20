@@ -26,8 +26,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/media"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/photo_item"/>
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/photo_item"
+            tools:context=".ui.details.DetailsActivity"/>
 
         <TextView
             android:id="@+id/description_title"

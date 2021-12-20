@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -32,11 +35,11 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mFab: FloatingActionButton
 
-    private var mPhotos: ArrayList<String> = ArrayList()
+   private var mPhotos: ArrayList<String> = ArrayList()
 
-    private lateinit var mRecyclerView: RecyclerView
+   private lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mAdapter: PhotosAdapter
+   private lateinit var mAdapter: PhotosAdapter
 
     private lateinit var mGoogleMap: GoogleMap
 
@@ -99,16 +102,24 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getProperty(property: Property) {
+        //val photosUri = ArrayList<Uri>()
+        //if (property.photos.size != 0) {
+        //    for (photo in property.photos) {
+        //        val photoUri = Uri.parse(photo.subSequence(2, property.photos[0].length -2) as String?)
+        //        photosUri.add(photoUri)
+        //    }
+        //}
         mAdapter = PhotosAdapter(property.photos)
         mRecyclerView = detailsBinding.carouselView
+        mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.adapter = mAdapter
         detailsBinding.description.text = property.description
         detailsBinding.piece.text = property.piece.toString()
         detailsBinding.surface.text = property.surface.toString()
         detailsBinding.position.text = property.address
-        val position = getLocationFromAddress(context, property.address)
-        position?.let { CameraUpdateFactory.newLatLngZoom(it, 15F) }?.let { mGoogleMap.moveCamera(it) }
-        position?.let { MarkerOptions().position(it) }?.let { mGoogleMap.addMarker(it) }
+        val location = getLocationFromAddress(context, property.address)
+        location?.let { CameraUpdateFactory.newLatLngZoom(it, 15F) }?.let { mGoogleMap.moveCamera(it) }
+        location?.let { MarkerOptions().position(it) }?.let { mGoogleMap.addMarker(it) }
     }
 
     override fun onMapReady(map: GoogleMap) {

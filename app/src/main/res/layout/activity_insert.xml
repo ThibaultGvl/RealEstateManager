@@ -82,9 +82,9 @@
                 android:id="@+id/date_sell_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:hint="@string/sell_date"
-                android:inputType="date"/>
+                android:inputType="date"
+                android:ems="10"/>
 
             <EditText
                 android:id="@+id/agent_input"

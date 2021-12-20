@@ -4,7 +4,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,7 @@ import com.openclassrooms.realestatemanager.OnItemClickListener
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Property
 
-class ListPropertyAdapter(private val listPropertys: List<Property>,
+class ListPropertyAdapter(private val listProperties: List<Property>,
                           private var listener: OnItemClickListener):
         RecyclerView.Adapter<ListPropertyAdapter.PropertyViewHolder>() {
 
@@ -24,13 +23,13 @@ class ListPropertyAdapter(private val listPropertys: List<Property>,
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
-        val property = listPropertys[position]
+        val property = listProperties[position]
         holder.updateWithProperty(property)
         holder.itemView.setOnClickListener{ property.id.let { it1 -> listener.onItemClick(it1) } }
     }
 
     override fun getItemCount(): Int {
-        return listPropertys.size
+        return listProperties.size
     }
 
     class PropertyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
