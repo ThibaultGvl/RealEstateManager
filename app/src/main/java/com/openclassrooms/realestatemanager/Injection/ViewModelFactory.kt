@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.Injection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

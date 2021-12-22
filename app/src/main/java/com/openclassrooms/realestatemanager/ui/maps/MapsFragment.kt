@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
-import com.openclassrooms.realestatemanager.Injection
+import com.openclassrooms.realestatemanager.Injection.Injection
 
 
 class MapsFragment : Fragment(), OnMapReadyCallback {

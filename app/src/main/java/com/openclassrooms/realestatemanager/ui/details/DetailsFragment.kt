@@ -18,7 +18,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.openclassrooms.realestatemanager.Injection
+import com.openclassrooms.realestatemanager.Injection.Injection
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailsBinding
 import com.openclassrooms.realestatemanager.model.Property
@@ -102,14 +102,30 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getProperty(property: Property) {
-        //val photosUri = ArrayList<Uri>()
-        //if (property.photos.size != 0) {
-        //    for (photo in property.photos) {
-        //        val photoUri = Uri.parse(photo.subSequence(2, property.photos[0].length -2) as String?)
-        //        photosUri.add(photoUri)
-        //    }
-        //}
-        mAdapter = PhotosAdapter(property.photos)
+        val photosUri = ArrayList<Uri>()
+        val photosString = property.photos.toString()
+        val photoStringArray = photosString.trim().splitToSequence(',').filter { it.isNotEmpty() }
+                .toList()
+        for (photo in photoStringArray) {
+            var photoToAdd = photo
+            for (char in photo) {
+                photoToAdd = when {
+                    char.toString() == "[" -> {
+                        photoToAdd.replace("[","")
+                    }
+                    char.toString() == "]" -> {
+                        photoToAdd.replace("]","")
+                    }
+                    else -> {
+                        photoToAdd.replace(" ", "")
+                    }
+                }
+            }
+            if (photoToAdd.isNotEmpty() && photoToAdd.isNotBlank()) {
+                photosUri.add(Uri.parse(photoToAdd))
+            }
+        }
+        mAdapter = PhotosAdapter(photosUri)
         mRecyclerView = detailsBinding.carouselView
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.adapter = mAdapter

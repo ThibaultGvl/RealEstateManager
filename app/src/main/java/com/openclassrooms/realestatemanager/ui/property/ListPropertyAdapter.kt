@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.property
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +38,31 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
         private val mPrice: TextView = itemView.findViewById(R.id.price)
 
         fun updateWithProperty(property: Property) {
-            val uri = property.photos[0].subSequence(2, property.photos[0].length -2)
-            val photo = Uri.parse(uri as String?)
-            Glide.with(mPicture).load(photo).into(mPicture)
+            if (property.photos.size != 0 && property.photos[0].isNotEmpty()) {
+                val photosString = property.photos.toString()
+                val photoStringArray = photosString.trim().splitToSequence(',')
+                        .filter { it.isNotEmpty() }.toList()
+                val photo = photoStringArray[1]
+                var photoToAdd = photo
+                for (char in photo) {
+                    photoToAdd = when {
+                        char.toString() == "[" -> {
+                            photoToAdd.replace("[","")
+                        }
+                        char.toString() == "]" -> {
+                            photoToAdd.replace("]", "")
+                        }
+                        else -> {
+                            photoToAdd.replace(" ", "")
+                        }
+                    }
+                }
+                Glide.with(mPicture).load(photoToAdd).into(mPicture)
+            }
+            else {
+                val photoDefault = R.drawable.ic_menu_gallery
+                Glide.with(mPicture).load(photoDefault).into(mPicture)
+            }
             mPlace.text = property.address
             mPrice.text = property.price.toString()
             mType.text = property.type

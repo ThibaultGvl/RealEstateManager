@@ -19,17 +19,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
-import com.openclassrooms.realestatemanager.Injection
+import com.openclassrooms.realestatemanager.Injection.Injection
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -126,11 +122,11 @@ class InsertActivity : AppCompatActivity() {
         mEditAgent.setText(property.agent)
         mButton.text = getString(R.string.update_property)
         mButton.setOnClickListener{
-            val photosList = mPhotos.toString().split("\\s*,\\s*")
+            val currentPhotosList = mPhotos.toString().split("\\s*,\\s*")
+            val photoList = property.photos.toString().split("\\s*,\\s*")
             val photos = ArrayList<String>()
-            for (photo in photosList) {
-                photos.add(photo)
-            }
+            photos.addAll(photoList)
+            photos.addAll(currentPhotosList)
             val updateProperty = Property(
                     property.id,
                     mEditType.text.toString(),
@@ -153,7 +149,7 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun createNewProperty() {
-        val photosList = mPhotos.toString().split("\\s*,\\s*") as ArrayList
+        val photosList = mPhotos.toString().split("\\s*,\\s*")
         val photos = ArrayList<String>()
         for (photo in photosList) {
             photos.add(photo)
@@ -211,21 +207,6 @@ class InsertActivity : AppCompatActivity() {
 
     private fun updateWithPhoto(uri: Uri) {
         mPhotos.add(uri)
-    }
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-        return File.createTempFile(
-                "JPEG_${timeStamp}_", /* prefix */
-                ".jpg", /* suffix */
-                storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            mCurrentPhotoPath = absolutePath
-        }
     }
 
     private fun sendVisualNotification(message: String) {

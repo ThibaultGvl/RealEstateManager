@@ -12,9 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 
-class PhotosAdapter(private val photos: ArrayList<String>) : RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>(){
-
-    private val mPhotos = ArrayList<Uri>()
+class PhotosAdapter(private val photos: ArrayList<Uri>) : RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val detailsFragmentDetailsBinding = LayoutInflater.from(parent.context)
@@ -23,17 +21,11 @@ class PhotosAdapter(private val photos: ArrayList<String>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        for (photo in photos) {
-            val uriToTransform = photo.subSequence(2, photo.length -2) as String?
-            val uri = Uri.parse(uriToTransform)
-            mPhotos.add(uri)
-        }
-        val photosPosition = mPhotos[position]
-        holder.updateWithPhoto(photosPosition)
+        holder.updateWithPhoto(photos[position])
     }
 
     override fun getItemCount(): Int {
-        return mPhotos.size
+        return photos.size
     }
 
     class PhotoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

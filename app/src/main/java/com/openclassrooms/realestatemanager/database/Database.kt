@@ -51,7 +51,7 @@ abstract class Database: RoomDatabase() {
                     loft.put("interest_point", "School, Restaurant")
                     loft.put("creation_date", "26/06/2019")
                     loft.put("sell_date", "12/10/2020")
-                    loft.put("photos", "none, none, none")
+                    loft.put("photos", "")
                     loft.put("agent", "Thibault")
                     db.insert("property", OnConflictStrategy.IGNORE, loft)
                     val house = ContentValues()
@@ -66,7 +66,7 @@ abstract class Database: RoomDatabase() {
                     house.put("interest_point", "Cinema, Bakery")
                     house.put("creation_date", "27/07/2020")
                     house.put("sell_date", "13/11/2020")
-                    house.put("photos", "none, none")
+                    house.put("photos", "")
                     house.put("agent", "Thibault")
                     db.insert("property", OnConflictStrategy.IGNORE, house)
                 }
