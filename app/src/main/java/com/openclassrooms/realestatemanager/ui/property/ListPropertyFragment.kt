@@ -13,7 +13,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentListPropertyBind
 import com.openclassrooms.realestatemanager.model.Filter
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
-import com.openclassrooms.realestatemanager.Injection.Injection
+import com.openclassrooms.realestatemanager.injection.Injection
 
 class ListPropertyFragment : Fragment(), OnItemClickListener {
 

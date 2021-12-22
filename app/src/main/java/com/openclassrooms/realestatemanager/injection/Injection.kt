@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Injection
+package com.openclassrooms.realestatemanager.injection
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.Database

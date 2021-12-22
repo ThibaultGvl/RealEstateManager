@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +17,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.openclassrooms.realestatemanager.Injection.Injection
+import com.openclassrooms.realestatemanager.injection.Injection
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailsBinding
 import com.openclassrooms.realestatemanager.model.Property
@@ -121,7 +120,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
-            if (photoToAdd.isNotEmpty() && photoToAdd.isNotBlank()) {
+            if (photoToAdd.isNotEmpty()) {
                 photosUri.add(Uri.parse(photoToAdd))
             }
         }

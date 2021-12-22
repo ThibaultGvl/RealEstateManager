@@ -1,10 +1,11 @@
 package com.openclassrooms.realestatemanager.model
 
+import android.content.ClipData.Item
+import android.content.ContentValues
 import androidx.room.*
 import com.openclassrooms.realestatemanager.database.Converter
-import java.io.Serializable
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 @Entity(tableName = "property")
 data class Property(@PrimaryKey(autoGenerate = true)
@@ -31,7 +32,25 @@ data class Property(@PrimaryKey(autoGenerate = true)
                     @ColumnInfo(name = "sell_date")
                     var sellDate: String,
                     @ColumnInfo(name = "photos")
-                    @TypeConverters(Converter::class)
-                    var photos: ArrayList<String>,
+                    var photos: String,
                     @ColumnInfo(name = "agent")
-                    var agent: String)
+                    var agent: String) {
+    constructor() : this(0,"",0F,0F,0F,
+            "","","","","",
+            "","","")
+
+    fun fromContentValues(values: ContentValues): Property {
+        val property = Property()
+        if (values.containsKey("type")) property.type = values.getAsString("type")
+        if (values.containsKey("price")) property.price = values.getAsFloat("price")
+        if (values.containsKey("surface")) property.surface = values.getAsFloat("surface")
+        if (values.containsKey("piece")) property.piece = values.getAsFloat("piece")
+        if (values.containsKey("description")) property.description = values.getAsString("description")
+        if (values.containsKey("address")) property.address = values.getAsString("address")
+        if (values.containsKey("interest_point")) property.interestPoint = values.getAsString("interest_point")
+        if (values.containsKey("status")) property.status = values.getAsString("status")
+        if (values.containsKey("photos")) property.photos = values.getAsString("photos")
+        if (values.containsKey("agent")) property.agent = values.getAsString("agent")
+        return property
+    }
+}

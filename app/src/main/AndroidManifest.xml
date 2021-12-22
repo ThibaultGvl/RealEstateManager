@@ -28,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.maps.MapsActivity"></activity>
+        <activity android:name=".ui.maps.MapsActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -50,6 +50,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <provider
+            android:authorities="${applicationId}.provider"
+            android:name=".provider.PropertyContentProvider"
+            android:exported="true"/>
 
         <activity android:name=".ui.filter.FilterActivity" />
         <activity android:name=".ui.LoanSimulatorActivity" />

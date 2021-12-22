@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.database
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
@@ -13,18 +14,21 @@ interface PropertyDAO {
     fun getProperty(): LiveData<List<Property>>
 
     @Query("SELECT * FROM property WHERE id = :id")
+    fun getPropertiesWithCursor(id: Long): Cursor
+
+    @Query("SELECT * FROM property WHERE id = :id")
     fun getPropertyById(id: Long): LiveData<Property>
 
     @RawQuery(observedEntities = [Property::class])
     fun getPropertyByFilter(query: SupportSQLiteQuery): LiveData<List<Property>>
 
     @Insert
-    fun insertProperty(property: Property)
+    fun insertProperty(property: Property): Long
 
     @Query("DELETE FROM property WHERE id = :propertyId")
     fun deleteProperty(propertyId: Long)
 
     @Update
-    fun updateProperty(property: Property)
+    fun updateProperty(property: Property): Int
 
 }

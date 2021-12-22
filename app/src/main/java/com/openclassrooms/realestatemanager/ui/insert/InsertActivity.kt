@@ -24,7 +24,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
-import com.openclassrooms.realestatemanager.Injection.Injection
+import com.openclassrooms.realestatemanager.injection.Injection
 import java.io.File
 import kotlin.collections.ArrayList
 
@@ -139,7 +139,7 @@ class InsertActivity : AppCompatActivity() {
                     mAutoCompleteTextView.toString(),
                     mEditCreationDate.text.toString(),
                     mEditSaleDate.text.toString(),
-                    photos,
+                    photos.toString(),
                     mEditAgent.text.toString()
             )
             insertViewModel.updateProperty(updateProperty)
@@ -165,7 +165,7 @@ class InsertActivity : AppCompatActivity() {
                 mAutoCompleteTextView.toString(),
                 mEditCreationDate.text.toString(),
                 mEditSaleDate.text.toString(),
-                photos,
+                photos.toString(),
                 mEditAgent.text.toString())
         insertViewModel.createProperty(property)
         sendVisualNotification(getString(R.string.created_notification_message))

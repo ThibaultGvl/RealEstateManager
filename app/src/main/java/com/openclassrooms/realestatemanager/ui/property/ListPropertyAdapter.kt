@@ -38,24 +38,13 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
         private val mPrice: TextView = itemView.findViewById(R.id.price)
 
         fun updateWithProperty(property: Property) {
-            if (property.photos.size != 0 && property.photos[0].isNotEmpty()) {
-                val photosString = property.photos.toString()
+            if (property.photos.isNotEmpty() ) {
+                val photosString = property.photos
                 val photoStringArray = photosString.trim().splitToSequence(',')
                         .filter { it.isNotEmpty() }.toList()
-                val photo = photoStringArray[1]
-                var photoToAdd = photo
-                for (char in photo) {
-                    photoToAdd = when {
-                        char.toString() == "[" -> {
-                            photoToAdd.replace("[","")
-                        }
-                        char.toString() == "]" -> {
-                            photoToAdd.replace("]", "")
-                        }
-                        else -> {
-                            photoToAdd.replace(" ", "")
-                        }
-                    }
+                var photoToAdd = getPhotoUri(photoStringArray[0])
+                if (photoToAdd.isEmpty()) {
+                    photoToAdd = getPhotoUri(photoStringArray[1])
                 }
                 Glide.with(mPicture).load(photoToAdd).into(mPicture)
             }
@@ -66,6 +55,23 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
             mPlace.text = property.address
             mPrice.text = property.price.toString()
             mType.text = property.type
+        }
+        private fun getPhotoUri(photo: String): String {
+            var photoToAdd = photo
+            for (char in photo) {
+                photoToAdd = when {
+                    char.toString() == "[" -> {
+                        photoToAdd.replace("[","")
+                    }
+                    char.toString() == "]" -> {
+                        photoToAdd.replace("]", "")
+                    }
+                    else -> {
+                        photoToAdd.replace(" ", "")
+                    }
+                }
+            }
+            return photoToAdd
         }
     }
 }

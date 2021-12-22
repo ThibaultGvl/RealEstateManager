@@ -16,10 +16,5 @@ class DetailsViewModel(var propertyRepository: PropertyRepository, executor: Exe
     fun getPropertyById(id: Long): LiveData<Property> {
         return propertyRepository.getPropertyById(id)
     }
-
-    fun deleteProperty(propertyId: Long) {
-        propertyRepository.deleteProperty(propertyId)
-    }
-
     val text: LiveData<String> = _text
 }
