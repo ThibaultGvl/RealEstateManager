@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
 
-    private String nowDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    private final String nowDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
     @Test
     public void addition_isCorrect() throws Exception {

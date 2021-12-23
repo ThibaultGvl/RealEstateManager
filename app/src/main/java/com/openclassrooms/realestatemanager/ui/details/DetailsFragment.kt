@@ -126,7 +126,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         }
         mAdapter = PhotosAdapter(photosUri)
         mRecyclerView = detailsBinding.carouselView
-        mRecyclerView.layoutManager = LinearLayoutManager(context)
+        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mRecyclerView.adapter = mAdapter
         detailsBinding.description.text = property.description
         detailsBinding.piece.text = property.piece.toString()

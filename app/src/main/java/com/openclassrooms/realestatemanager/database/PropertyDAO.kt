@@ -26,7 +26,7 @@ interface PropertyDAO {
     fun insertProperty(property: Property): Long
 
     @Query("DELETE FROM property WHERE id = :propertyId")
-    fun deleteProperty(propertyId: Long)
+    fun deleteProperty(propertyId: Long): Int
 
     @Update
     fun updateProperty(property: Property): Int
