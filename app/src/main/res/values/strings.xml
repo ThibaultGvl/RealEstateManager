@@ -22,7 +22,9 @@
     <string name="point_of_interest">Point of Interest</string>
     <string name="status">Status</string>
     <string name="enter_date">Enter Date</string>
-    <string name="sell_date">Sell Date</string>
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
     <string name="agent">Agent</string>
     <string name="property">Property</string>
     <string name="money">$</string>

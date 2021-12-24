@@ -29,6 +29,6 @@ interface PropertyDAO {
     fun deleteProperty(propertyId: Long): Int
 
     @Update
-    fun updateProperty(property: Property): Int
+    fun updateProperty(property: Property)
 
 }

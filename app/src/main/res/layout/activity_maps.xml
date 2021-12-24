@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.maps.MapsActivity">
 
+    <LinearLayout
+        android:id="@+id/linear_maps"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:titleTextColor="#FFFFFF"/>
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/fragment_maps_container"
         android:layout_height="match_parent"

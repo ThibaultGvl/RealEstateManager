@@ -39,7 +39,7 @@ class PropertyContentProvider : ContentProvider() {
     override fun getType(uri: Uri): String {
         return "vnd.android.cursor.item/$AUTHORITY.$TABLE_NAME"    }
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri {
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (context != null && values != null){
             val index  = Database.getInstance(context!!).propertyDao.insertProperty(Property().fromContentValues(values))
             if (index != 0L){

@@ -21,11 +21,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.databinding.ActivityInsertBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.injection.Injection
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -43,8 +46,9 @@ class InsertActivity : AppCompatActivity() {
     private lateinit var mEditPrice: EditText
     private lateinit var mEditPiece: EditText
     private lateinit var mEditSurface: EditText
-    private lateinit var mEditCreationDate: EditText
-    private lateinit var mEditSaleDate: EditText
+    private lateinit var mEditDay: Spinner
+    private lateinit var mEditMonth: Spinner
+    private lateinit var mEditYear: Spinner
     private lateinit var mAutoCompleteTextView: Spinner
     private lateinit var mButtonGallery: Button
     private lateinit var mButtonTake: Button
@@ -52,7 +56,6 @@ class InsertActivity : AppCompatActivity() {
     private var mPropertyId: Long = 0
     private val REQUEST_TAKE_PHOTO = 0
     private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
-    lateinit var mCurrentPhotoPath: String
     private lateinit var mUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,12 +92,23 @@ class InsertActivity : AppCompatActivity() {
         mEditPrice = mBinding.priceInput
         mEditPiece = mBinding.pieceInput
         mEditSurface = mBinding.surfaceInput
-        mEditCreationDate = mBinding.dateEnterInput
-        mEditSaleDate = mBinding.dateSellInput
+        mEditDay = mBinding.daySellInput
+        mEditMonth = mBinding.monthSellInput
+        mEditYear = mBinding.yearSellInput
         mAutoCompleteTextView = mBinding.statusInput
         val array = arrayOf("For Sale", "For Rent", "Sold")
+        val days = arrayOf("01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+                "15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
+        val month = arrayOf("01","02","03","04","05","06","07","08","09","10","11","12")
+        val year = arrayOf("2020","2021","2022")
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, array)
+        val dayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, days)
+        val monthAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, month)
+        val yearAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, year)
+        mEditDay.adapter = dayAdapter
+        mEditMonth.adapter = monthAdapter
+        mEditYear.adapter = yearAdapter
         mAutoCompleteTextView.adapter = adapter
         mButtonGallery = mBinding.gallery
         mButtonTake = mBinding.apn
@@ -117,13 +131,12 @@ class InsertActivity : AppCompatActivity() {
         mEditDescription.setText(property.description)
         mEditAddress.setText(property.address)
         mEditInterest.setText(property.interestPoint)
-        mEditCreationDate.setText(property.creationDate)
-        mEditSaleDate.setText(property.sellDate)
         mEditAgent.setText(property.agent)
         mButton.text = getString(R.string.update_property)
+        val date = "$mEditDay/$mEditMonth/$mEditYear"
         mButton.setOnClickListener{
             val currentPhotosList = mPhotos.toString().split("\\s*,\\s*")
-            val photoList = property.photos.toString().split("\\s*,\\s*")
+            val photoList = property.photos.split("\\s*,\\s*")
             val photos = ArrayList<String>()
             photos.addAll(photoList)
             photos.addAll(currentPhotosList)
@@ -137,8 +150,8 @@ class InsertActivity : AppCompatActivity() {
                     mEditAddress.text.toString(),
                     mEditInterest.text.toString(),
                     mAutoCompleteTextView.toString(),
-                    mEditCreationDate.text.toString(),
-                    mEditSaleDate.text.toString(),
+                    property.creationDate,
+                    date,
                     photos.toString(),
                     mEditAgent.text.toString()
             )
@@ -154,6 +167,7 @@ class InsertActivity : AppCompatActivity() {
         for (photo in photosList) {
             photos.add(photo)
         }
+        val date = "$mEditDay/$mEditMonth/$mEditYear"
         val property = Property(id,
                 mEditType.text.toString(),
                 mEditPrice.text.toString().toFloat(),
@@ -163,8 +177,8 @@ class InsertActivity : AppCompatActivity() {
                 mEditAddress.text.toString(),
                 mEditInterest.text.toString(),
                 mAutoCompleteTextView.toString(),
-                mEditCreationDate.text.toString(),
-                mEditSaleDate.text.toString(),
+                Utils.getTodayDate(),
+                date,
                 photos.toString(),
                 mEditAgent.text.toString())
         insertViewModel.createProperty(property)
@@ -234,6 +248,6 @@ class InsertActivity : AppCompatActivity() {
         return (mEditType.text.isNotEmpty() && mEditPrice.text.isNotEmpty()
                 && mEditSurface.text.isNotEmpty() && mEditPrice.text.isNotEmpty()
                 && mEditDescription.text.isNotEmpty() && mEditAddress.text.isNotEmpty()
-                && mEditInterest.text.isNotEmpty() && mEditCreationDate.text.isNotEmpty())
+                && mEditInterest.text.isNotEmpty())
     }
 }
