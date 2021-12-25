@@ -14,6 +14,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
+import android.webkit.URLUtil
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,6 +28,7 @@ import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.injection.Injection
 import java.io.File
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -165,7 +167,23 @@ class InsertActivity : AppCompatActivity() {
         val photosList = mPhotos.toString().split("\\s*,\\s*")
         val photos = ArrayList<String>()
         for (photo in photosList) {
-            photos.add(photo)
+            var photoToAdd = photo
+            for (char in photo) {
+                photoToAdd = when {
+                    char.toString() == "[" -> {
+                        photoToAdd.replace("[", "")
+                    }
+                    char.toString() == "]" -> {
+                        photoToAdd.replace("]", "")
+                    }
+                    else -> {
+                        photoToAdd.replace(" ", "")
+                    }
+                }
+            }
+            if (photoToAdd != "") {
+                photos.add(photoToAdd)
+            }
         }
         val date = "$mEditDay/$mEditMonth/$mEditYear"
         val property = Property(id,

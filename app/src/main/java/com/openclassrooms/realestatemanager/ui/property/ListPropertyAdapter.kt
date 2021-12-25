@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -39,43 +40,42 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
         private val mPrice: TextView = itemView.findViewById(R.id.price)
 
         fun updateWithProperty(property: Property) {
-            getPhotoUri(property.photos)
+            val photos = getPhotos(property.photos)
+            if (photos.isNotEmpty()) {
+                Glide.with(mPicture).load(photos[0]).into(mPicture)
+            }
+            else {
+                Glide.with(mPicture).load(R.drawable.ic_menu_gallery).into(mPicture)
+            }
             mPlace.text = property.address
             mPrice.text = property.price.toString()
             mType.text = property.type
         }
-        private fun getPhotoUri(photos: String){
-            if (photos.isNotEmpty() && photos != "") {
-                val photosUri = ArrayList<Uri>()
-                val photoStringArray = photos.trim().splitToSequence(',').filter { it.isNotEmpty() }
-                        .toList()
-                for (photo in photoStringArray) {
-                    var photoToAdd = photo
-                    for (char in photo) {
-                        photoToAdd = when {
-                            char.toString() == "[" -> {
-                                photoToAdd.replace("[", "")
-                            }
-                            char.toString() == "]" -> {
-                                photoToAdd.replace("]", "")
-                            }
-                            else -> {
-                                photoToAdd.replace(" ", "")
-                            }
+        fun getPhotos(photosProperty: String): ArrayList<Uri>{
+            val photosUri = ArrayList<Uri>()
+            val photosString = photosProperty
+            val photoStringArray = photosString.trim().splitToSequence(',')
+                    .filter { it.isNotEmpty() }.toList()
+            for (photo in photoStringArray) {
+                var photoToAdd = photo
+                for (char in photo) {
+                    photoToAdd = when {
+                        char.toString() == "[" -> {
+                            photoToAdd.replace("[","")
+                        }
+                        char.toString() == "]" -> {
+                            photoToAdd.replace("]","")
+                        }
+                        else -> {
+                            photoToAdd.replace(" ", "")
                         }
                     }
-                    if (photoToAdd.isNotEmpty()) {
-                        photosUri.add(Uri.parse(photoToAdd))
-                        Glide.with(mPicture).load(photosUri[0]).into(mPicture)
-                    } else {
-                        val photoDefault = R.drawable.ic_menu_gallery
-                        Glide.with(mPicture).load(photoDefault).into(mPicture)
-                    }
                 }
-            } else {
-                val photoDefault = R.drawable.ic_menu_gallery
-                Glide.with(mPicture).load(photoDefault).into(mPicture)
+                if (photoToAdd.isNotEmpty() && URLUtil.isValidUrl(photoToAdd)) {
+                    photosUri.add(Uri.parse(photoToAdd))
+                }
             }
+            return photosUri
         }
     }
 }

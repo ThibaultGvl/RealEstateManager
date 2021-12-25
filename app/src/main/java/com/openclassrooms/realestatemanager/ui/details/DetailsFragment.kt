@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentDetailsBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.insert.InsertActivity
+import java.net.URI
 
 
 class DetailsFragment : Fragment(), OnMapReadyCallback {
@@ -102,29 +104,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getProperty(property: Property) {
-        val photosUri = ArrayList<Uri>()
-        val photosString = property.photos
-        val photoStringArray = photosString.trim().splitToSequence(',').filter { it.isNotEmpty() }
-                .toList()
-        for (photo in photoStringArray) {
-            var photoToAdd = photo
-            for (char in photo) {
-                photoToAdd = when {
-                    char.toString() == "[" -> {
-                        photoToAdd.replace("[","")
-                    }
-                    char.toString() == "]" -> {
-                        photoToAdd.replace("]","")
-                    }
-                    else -> {
-                        photoToAdd.replace(" ", "")
-                    }
-                }
-            }
-            if (photoToAdd.isNotEmpty()) {
-                photosUri.add(Uri.parse(photoToAdd))
-            }
-        }
+        val photosUri: ArrayList<Uri> = getPhotos(property.photos)
         mAdapter = PhotosAdapter(photosUri)
         mRecyclerView = detailsBinding.carouselView
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -159,5 +139,32 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             ex.printStackTrace()
         }
         return p1
+    }
+
+    fun getPhotos(photosProperty: String): ArrayList<Uri>{
+        val photosUri = ArrayList<Uri>()
+        val photosString = photosProperty
+        val photoStringArray = photosString.trim().splitToSequence(',').filter { it.isNotEmpty() }
+                .toList()
+        for (photo in photoStringArray) {
+            var photoToAdd = photo
+            for (char in photo) {
+                photoToAdd = when {
+                    char.toString() == "[" -> {
+                        photoToAdd.replace("[","")
+                    }
+                    char.toString() == "]" -> {
+                        photoToAdd.replace("]","")
+                    }
+                    else -> {
+                        photoToAdd.replace(" ", "")
+                    }
+                }
+            }
+            if (photoToAdd.isNotEmpty() && URLUtil.isValidUrl(photoToAdd)) {
+                photosUri.add(Uri.parse(photoToAdd))
+            }
+        }
+        return photosUri
     }
 }
