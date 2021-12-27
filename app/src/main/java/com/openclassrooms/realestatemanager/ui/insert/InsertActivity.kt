@@ -32,6 +32,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
 
 
 class InsertActivity : AppCompatActivity() {
@@ -102,7 +103,8 @@ class InsertActivity : AppCompatActivity() {
         val days = arrayOf("01","02","03","04","05","06","07","08","09","10","11","12","13","14",
                 "15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
         val month = arrayOf("01","02","03","04","05","06","07","08","09","10","11","12")
-        val year = arrayOf("2020","2021","2022")
+        val actualYear = Calendar.getInstance().get(Calendar.YEAR)
+        val year = arrayOf((actualYear.absoluteValue -1).toString(),actualYear.absoluteValue.toString(),(actualYear.absoluteValue+1).toString())
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, array)
         val dayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, days)
@@ -123,6 +125,11 @@ class InsertActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "All information must be registered", Toast.LENGTH_SHORT).show()
             }
         }
+        val toolbar = mBinding.insertToolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val returnButton = mBinding.returnInsert
+        returnButton.setOnClickListener { onBackPressed() }
     }
 
     private fun getPropertyToModify(property: Property) {

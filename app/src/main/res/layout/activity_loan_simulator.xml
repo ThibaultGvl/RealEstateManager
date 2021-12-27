@@ -6,12 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.LoanSimulatorActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/loan_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="#FFFFFF">
+
+        <ImageButton
+            android:id="@+id/return_loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:background="@color/colorPrimary"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/loan_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loan_toolbar"
         android:text="@string/loan_presentation"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"

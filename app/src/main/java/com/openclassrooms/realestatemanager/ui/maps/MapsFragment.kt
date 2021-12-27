@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +47,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         mMapsBinding = FragmentMapsBinding.inflate(inflater, container, false)
         configureViewModel()
         mLocationManager = context?.getSystemService(Context.LOCATION_SERVICE)!! as LocationManager
+        val positionButton = mMapsBinding.position
+        positionButton.setOnClickListener {
+            getLocationPermission()
+        }
         return mMapsBinding.root
     }
 
