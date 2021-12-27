@@ -123,7 +123,7 @@ class InsertActivity : AppCompatActivity() {
                 createNewProperty()
             }
             else {
-                Toast.makeText(baseContext, "All information must be registered", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, getString(R.string.information_error), Toast.LENGTH_SHORT).show()
             }
         }
         val toolbar = mBinding.insertToolbar
@@ -153,9 +153,9 @@ class InsertActivity : AppCompatActivity() {
             val updateProperty = Property(
                     property.id,
                     mEditType.text.toString(),
-                    mEditPrice.text.toString().toFloat(),
-                    mEditSurface.text.toString().toFloat(),
-                    mEditPiece.text.toString().toFloat(),
+                    mEditPrice.text.toString().toInt(),
+                    mEditSurface.text.toString().toInt(),
+                    mEditPiece.text.toString().toInt(),
                     mEditDescription.text.toString(),
                     mEditAddress.text.toString(),
                     mEditInterest.text.toString(),
@@ -196,9 +196,9 @@ class InsertActivity : AppCompatActivity() {
         val date = "$mEditDay/$mEditMonth/$mEditYear"
         val property = Property(id,
                 mEditType.text.toString(),
-                mEditPrice.text.toString().toFloat(),
-                mEditSurface.text.toString().toFloat(),
-                mEditPiece.text.toString().toFloat(),
+                mEditPrice.text.toString().toInt(),
+                mEditSurface.text.toString().toInt(),
+                mEditPiece.text.toString().toInt(),
                 mEditDescription.text.toString(),
                 mEditAddress.text.toString(),
                 mEditInterest.text.toString(),

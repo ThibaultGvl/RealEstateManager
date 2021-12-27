@@ -51,7 +51,7 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
             mPrice.text = property.price.toString()
             mType.text = property.type
         }
-        fun getPhotos(photosProperty: String): ArrayList<Uri>{
+        private fun getPhotos(photosProperty: String): ArrayList<Uri>{
             val photosUri = ArrayList<Uri>()
             val photosString = photosProperty
             val photoStringArray = photosString.trim().splitToSequence(',')

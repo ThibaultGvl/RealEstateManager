@@ -34,48 +34,63 @@
         android:textSize="20sp"
         android:textStyle="bold"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/loan_input"
+    <EditText
+        android:id="@+id/input_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loan_text">
+        app:layout_constraintTop_toBottomOf="@id/loan_text"
+        android:hint="@string/input"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/amount"
+    <EditText
+        android:id="@+id/rate_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loan_input"/>
+        app:layout_constraintStart_toEndOf="@id/input_input"
+        app:layout_constraintEnd_toStartOf="@id/amount_input"
+        app:layout_constraintTop_toTopOf="@id/input_input"
+        android:hint="@string/rate"/>
 
-    <TextView
-        android:id="@+id/rate"
+    <EditText
+        android:id="@+id/amount_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/loan_input"
-        app:layout_constraintTop_toTopOf="@id/amount"/>
+        app:layout_constraintStart_toEndOf="@id/rate_input"
+        app:layout_constraintEnd_toStartOf="@id/duration_input"
+        app:layout_constraintTop_toTopOf="@id/input_input"
+        android:hint="@string/amount"/>
 
-    <TextView
-        android:id="@+id/duration"
+    <EditText
+        android:id="@+id/duration_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/amount"/>
+        app:layout_constraintTop_toTopOf="@id/input_input"
+        android:hint="@string/duration"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/amount"
+        app:layout_constraintTop_toBottomOf="@id/amount_input"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/monthly_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/total_payments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monthly_payment"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

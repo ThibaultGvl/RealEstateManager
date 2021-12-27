@@ -11,11 +11,11 @@ data class Property(@PrimaryKey(autoGenerate = true)
                     @ColumnInfo(name = "type")
                     var type: String,
                     @ColumnInfo(name = "price")
-                    var price: Float,
+                    var price: Int,
                     @ColumnInfo(name = "surface")
-                    var surface: Float,
+                    var surface: Int,
                     @ColumnInfo(name = "piece")
-                    var piece: Float,
+                    var piece: Int,
                     @ColumnInfo(name = "description")
                     var description: String,
                     @ColumnInfo(name = "address")
@@ -32,16 +32,16 @@ data class Property(@PrimaryKey(autoGenerate = true)
                     var photos: String,
                     @ColumnInfo(name = "agent")
                     var agent: String) {
-    constructor() : this(0,"",0F,0F,0F,
+    constructor() : this(0,"",0,0,0,
             "","","","","",
             "","","")
 
     fun fromContentValues(values: ContentValues): Property {
         val property = Property()
         if (values.containsKey("type")) property.type = values.getAsString("type")
-        if (values.containsKey("price")) property.price = values.getAsFloat("price")
-        if (values.containsKey("surface")) property.surface = values.getAsFloat("surface")
-        if (values.containsKey("piece")) property.piece = values.getAsFloat("piece")
+        if (values.containsKey("price")) property.price = values.getAsInteger("price")
+        if (values.containsKey("surface")) property.surface = values.getAsInteger("surface")
+        if (values.containsKey("piece")) property.piece = values.getAsInteger("piece")
         if (values.containsKey("description")) property.description = values.getAsString("description")
         if (values.containsKey("address")) property.address = values.getAsString("address")
         if (values.containsKey("interest_point")) property.interestPoint = values.getAsString("interest_point")

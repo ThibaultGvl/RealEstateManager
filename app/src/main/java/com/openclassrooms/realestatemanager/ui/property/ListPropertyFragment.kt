@@ -57,43 +57,51 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
             queryString += " WHERE type = '$type'"
             argsNumber += 1
         }
-        if (filter.priceMin != 0.0.toFloat()) {
+        if (filter.priceMin != 0) {
             queryString += if(argsNumber != 0) {
                 " AND"
             } else {
                 " WHERE"
             }
             val min = filter.priceMin
-            queryString += " price > ${min.toDouble()}"
+            queryString += " price > $min"
             argsNumber += 1
         }
-        if (filter.priceMax != 0.0.toFloat()) {
-            if(argsNumber != 0) {
-                queryString += " AND"
+        if (filter.priceMax != 0) {
+            queryString += if(argsNumber != 0) {
+                " AND"
+            } else {
+                " WHERE"
             }
             val max = filter.priceMax
-            queryString += " price < ${max.toDouble()}"
+            queryString += " price < $max"
             argsNumber += 1
         }
-        if (filter.surfaceMin != 0.0.toFloat()) {
-            if(argsNumber != 0) {
-                queryString += " AND"
+        if (filter.surfaceMin != 0) {
+            queryString += if(argsNumber != 0) {
+                " AND"
+            } else {
+                " WHERE"
             }
             val min = filter.surfaceMin
-            queryString += " surface > ${min.toDouble()}"
+            queryString += " surface > $min"
             argsNumber += 1
         }
-        if (filter.surfaceMax != 0.0.toFloat()) {
-            if(argsNumber != 0) {
-                queryString += " AND"
+        if (filter.surfaceMax != 0) {
+            queryString += if(argsNumber != 0) {
+                " AND"
+            }else {
+                " WHERE"
             }
             val max = filter.surfaceMax
-            queryString += " surface < ${max.toDouble()}"
+            queryString += " surface < $max"
             argsNumber += 1
         }
         if (filter.interestPoint != " ") {
-            if(argsNumber != 0) {
-                queryString += " WHERE"
+            queryString += if(argsNumber == 0) {
+                " WHERE"
+            } else {
+                " AND"
             }
             val interest = filter.interestPoint
             queryString += " interest_point LIKE '%$interest%'"
