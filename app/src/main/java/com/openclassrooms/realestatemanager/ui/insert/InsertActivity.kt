@@ -57,6 +57,7 @@ class InsertActivity : AppCompatActivity() {
     private lateinit var mButtonTake: Button
     private lateinit var mButton: Button
     private var mPropertyId: Long = 0
+    private val PERMISSION_ID = 0
     private val REQUEST_TAKE_PHOTO = 0
     private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
     private lateinit var mUri: Uri
@@ -212,37 +213,50 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun selectImageInAlbum() {
-        val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        i.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(i, REQUEST_SELECT_IMAGE_IN_ALBUM)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PERMISSION_ID)
+        }
+        else {
+            val i = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            i.addCategory(Intent.CATEGORY_OPENABLE)
+            startActivityForResult(i, REQUEST_SELECT_IMAGE_IN_ALBUM)
+        }
     }
 
     private fun takePhoto() {
-        val m_intent = Intent(ACTION_IMAGE_CAPTURE)
-        val file: File = File.createTempFile(
-                "IMG_", ".jpg",
-                applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        mUri = FileProvider.getUriForFile(this,  "com.openclassrooms.realestatemanager.provider", file)
-        m_intent.putExtra(EXTRA_OUTPUT, mUri)
-        startActivityForResult(m_intent, REQUEST_TAKE_PHOTO)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PERMISSION_ID)
+        }
+        else {
+            val m_intent = Intent(ACTION_IMAGE_CAPTURE)
+            val file: File = File.createTempFile(
+                    "IMG_", ".jpg",
+                    applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+            mUri = FileProvider.getUriForFile(this, "com.openclassrooms.realestatemanager.provider", file)
+            m_intent.putExtra(EXTRA_OUTPUT, mUri)
+            startActivityForResult(m_intent, REQUEST_TAKE_PHOTO)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == REQUEST_SELECT_IMAGE_IN_ALBUM &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            val uri = data?.data
-            val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
-            if (uri != null && takeFlags != null) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_SELECT_IMAGE_IN_ALBUM
+                && ActivityCompat.checkSelfPermission
+                (this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+                val uri = data?.data
+                val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+                if (uri != null && takeFlags != null) {
                     this.contentResolver.takePersistableUriPermission(uri, takeFlags)
                     updateWithPhoto(uri)
+                }
             }
+        if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                updateWithPhoto(mUri)
         }
-        if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            updateWithPhoto(mUri)
-        }
-    }
+     }
 
     private fun updateWithPhoto(uri: Uri) {
         mPhotos.add(uri)

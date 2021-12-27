@@ -38,7 +38,6 @@ data class Property(@PrimaryKey(autoGenerate = true)
 
     fun fromContentValues(values: ContentValues): Property {
         val property = Property()
-        if (values.containsKey("id")) property.id = values.getAsLong("id")
         if (values.containsKey("type")) property.type = values.getAsString("type")
         if (values.containsKey("price")) property.price = values.getAsFloat("price")
         if (values.containsKey("surface")) property.surface = values.getAsFloat("surface")

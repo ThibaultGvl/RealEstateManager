@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
+@RunWith(AndroidJUnit4::class)
 class PropertyContentProviderTest {
 
     private lateinit var mDatabase: Database
@@ -57,7 +57,6 @@ class PropertyContentProviderTest {
 
     private fun generateProperty():ContentValues{
         val values = ContentValues()
-        values.put("id", 1814987646548432135)
         values.put("type","Loft")
         values.put("price",200000)
         values.put("surface",200)
@@ -68,12 +67,13 @@ class PropertyContentProviderTest {
         values.put("status","Sold")
         values.put("creation_date", "5")
         values.put("sell_date","5")
+        values.put("photos", "")
         values.put("agent","Thibault")
         return values
     }
 
     @After
     fun after() {
-        mDatabase.propertyDao.deleteProperty(1814987646548432135)
+        mDatabase.close()
     }
 }
