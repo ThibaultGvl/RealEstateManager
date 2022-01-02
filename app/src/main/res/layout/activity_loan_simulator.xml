@@ -30,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loan_toolbar"
         android:text="@string/loan_presentation"
-        android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:textStyle="bold"/>
 
@@ -40,6 +39,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loan_text"
+        android:inputType="number"
         android:hint="@string/input"/>
 
     <EditText
@@ -49,6 +49,7 @@
         app:layout_constraintStart_toEndOf="@id/input_input"
         app:layout_constraintEnd_toStartOf="@id/amount_input"
         app:layout_constraintTop_toTopOf="@id/input_input"
+        android:inputType="number"
         android:hint="@string/rate"/>
 
     <EditText
@@ -58,6 +59,7 @@
         app:layout_constraintStart_toEndOf="@id/rate_input"
         app:layout_constraintEnd_toStartOf="@id/duration_input"
         app:layout_constraintTop_toTopOf="@id/input_input"
+        android:inputType="number"
         android:hint="@string/amount"/>
 
     <EditText
@@ -66,6 +68,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/input_input"
+        android:inputType="number"
         android:hint="@string/duration"/>
 
     <Button
@@ -74,7 +77,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/amount_input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/start_calculation"
+        android:background="@color/pink"/>
 
     <TextView
         android:id="@+id/monthly_payment"

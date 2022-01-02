@@ -37,8 +37,6 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mFab: FloatingActionButton
 
-   private var mPhotos: ArrayList<String> = ArrayList()
-
    private lateinit var mRecyclerView: RecyclerView
 
    private lateinit var mAdapter: PhotosAdapter
@@ -109,9 +107,12 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         mRecyclerView = detailsBinding.carouselView
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mRecyclerView.adapter = mAdapter
+        val surface = property.surface.toString() + "m²"
+        detailsBinding.surface.text = surface
+        val price = property.price.toString() + "$"
+        detailsBinding.price.text = price
         detailsBinding.description.text = property.description
         detailsBinding.piece.text = property.piece.toString()
-        detailsBinding.surface.text = property.surface.toString()
         detailsBinding.position.text = property.address
         val location = getLocationFromAddress(context, property.address)
         location?.let { CameraUpdateFactory.newLatLngZoom(it, 15F) }?.let { mGoogleMap.moveCamera(it) }
@@ -141,7 +142,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         return p1
     }
 
-    fun getPhotos(photosProperty: String): ArrayList<Uri>{
+    private fun getPhotos(photosProperty: String): ArrayList<Uri>{
         val photosUri = ArrayList<Uri>()
         val photosString = photosProperty
         val photoStringArray = photosString.trim().splitToSequence(',').filter { it.isNotEmpty() }

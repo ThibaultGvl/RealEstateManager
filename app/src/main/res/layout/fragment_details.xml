@@ -60,6 +60,60 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/position_title"
+            app:layout_constraintTop_toTopOf="@id/position_title"
+            android:src="@drawable/ic_baseline_location_on_24"
+            app:tint="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/position_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/surface_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/location"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginStart="@dimen/margin_details"/>
+
+        <TextView
+            android:id="@+id/position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/position_title"
+            app:layout_constraintStart_toStartOf="@id/position_title"
+            android:text="@string/location"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/price_title"
+            app:layout_constraintTop_toTopOf="@id/price_title"
+            android:src="@drawable/ic_baseline_attach_money_24"
+            app:tint="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/price_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/piece_title"
+            app:layout_constraintStart_toStartOf="@id/position_title"
+            android:text="@string/price"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/price_title"
+            app:layout_constraintStart_toStartOf="@id/price_title"
+            android:text="@string/price"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@id/surface_title"
             app:layout_constraintTop_toTopOf="@id/surface_title"
             android:src="@drawable/ic_baseline_fit_screen_24"
@@ -69,12 +123,12 @@
         android:id="@+id/surface_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description"
         android:text="@string/surface"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:layout_marginStart="@dimen/margin_details"/>
+        android:layout_marginEnd="@dimen/margin_details"/>
 
     <TextView
         android:id="@+id/surface"
@@ -111,33 +165,6 @@
         app:layout_constraintTop_toBottomOf="@id/piece_title"
         android:text="@string/piece"/>
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/position_title"
-        app:layout_constraintTop_toTopOf="@id/position_title"
-        android:src="@drawable/ic_baseline_location_on_24"
-        app:tint="@color/colorPrimary"/>
-
-    <TextView
-        android:id="@+id/position_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/surface_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/location"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginEnd="20dp"/>
-
-    <TextView
-        android:id="@+id/position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/position_title"
-        app:layout_constraintEnd_toEndOf="@id/position_title"
-        android:text="@string/location"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

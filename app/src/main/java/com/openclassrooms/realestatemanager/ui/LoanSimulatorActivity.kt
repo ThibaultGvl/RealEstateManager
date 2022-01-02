@@ -26,7 +26,7 @@ class LoanSimulatorActivity : AppCompatActivity() {
         val monthlyPayments = binding.monthlyPayment
         val totalInput = binding.totalPayments
         binding.button.setOnClickListener {
-            if (amount.text != null && rate.text != null && input.text != null && duration.text != null) {
+            if (amount.text.isNotEmpty() && rate.text.isNotEmpty() && input.text.isNotEmpty() && duration.text.isNotEmpty()) {
                 val calculation = ((amount.text.toString().toInt() - input.text.toString().toInt())*((rate.text.toString().toFloat()/100)+1))/duration.text.toString().toInt()
                 val total = calculation*duration.text.toString().toInt() + input.text.toString().toInt()
                 "You will have to paid $calculation for ${duration.text} month".also { monthlyPayments.text = it }

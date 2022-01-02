@@ -7,13 +7,11 @@
         android:orderInCategory="100"
         android:title=""
         android:icon="@drawable/ic_baseline_add_24"
-        app:showAsAction="ifRoom"
-        android:iconTint="@color/colorAnalogous1"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_filter"
         android:title=""
         android:icon="@drawable/ic_baseline_filter_list_24"
-        app:showAsAction="ifRoom"
-        android:iconTint="@color/colorAnalogous1"/>
+        app:showAsAction="ifRoom"/>
 </menu>

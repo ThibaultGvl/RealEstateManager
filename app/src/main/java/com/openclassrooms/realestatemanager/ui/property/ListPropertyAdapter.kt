@@ -47,8 +47,9 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
             else {
                 Glide.with(mPicture).load(R.drawable.ic_menu_gallery).into(mPicture)
             }
+            val price = property.price.toString() + "$"
+            mPrice.text = price
             mPlace.text = property.address
-            mPrice.text = property.price.toString()
             mType.text = property.type
         }
         private fun getPhotos(photosProperty: String): ArrayList<Uri>{

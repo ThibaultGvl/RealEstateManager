@@ -19,12 +19,12 @@ public class UtilsUnitTest {
 
     @Test
     public void eurosToDollars() {
-        assertEquals(Utils.convertEuroToDollar(5000), 5710);
+        assertEquals(Utils.convertEuroToDollar(5000), 5686);
     }
 
     @Test
     public void dollarsToEuros() {
-        assertEquals(Utils.convertDollarToEuro(780000), 633360);
+        assertEquals(Utils.convertDollarToEuro(15000), 13188);
     }
 
     @Test

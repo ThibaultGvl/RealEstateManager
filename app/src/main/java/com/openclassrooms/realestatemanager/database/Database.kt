@@ -44,8 +44,10 @@ abstract class Database: RoomDatabase() {
                     loft.put("price", 1499999)
                     loft.put("surface", 125)
                     loft.put("piece", 2)
-                    loft.put("description", "A beautiful loft in the center of Paris")
-                    loft.put("address", "Paris")
+                    loft.put("description", "A beautiful loft with all you need to be happy, " +
+                            "this new yorker style estate is really atypical and he will answer " +
+                            "to all your needed")
+                    loft.put("address", "12 rue du clerc")
                     loft.put("status", "For Sale")
                     loft.put("interest_point", "School, Restaurant")
                     loft.put("creation_date", "26/06/2019")
@@ -59,7 +61,8 @@ abstract class Database: RoomDatabase() {
                     house.put("surface", 205)
                     house.put("piece", 5)
                     house.put("description", "A charming house in a very calm village with old " +
-                        "fashion style")
+                        "fashion style. He's also near from all, it will be very easy to live here " +
+                            "every days")
                     house.put("address", "Albi")
                     house.put("status", "For Sale")
                     house.put("interest_point", "Cinema, Bakery")
