@@ -17,24 +17,24 @@ import com.openclassrooms.realestatemanager.injection.Injection
 
 class ListPropertyFragment : Fragment(), OnItemClickListener {
 
-    private lateinit var listPropertyViewModel: ListPropertyViewModel
+    private lateinit var mListPropertyViewModel: ListPropertyViewModel
 
-    private var propertys: ArrayList<Property> = ArrayList()
+    private var mProperties: ArrayList<Property> = ArrayList()
 
-    private lateinit var binding: FragmentListPropertyBinding
+    private lateinit var mBinding: FragmentListPropertyBinding
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
 
-    private var mAdapter = ListPropertyAdapter(propertys, this)
+    private var mAdapter = ListPropertyAdapter(mProperties, this)
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View {
-        binding = FragmentListPropertyBinding.inflate(inflater)
-        recyclerView = binding.root
-        recyclerView.adapter = mAdapter
-        return recyclerView
+        mBinding = FragmentListPropertyBinding.inflate(inflater)
+        mRecyclerView = mBinding.root
+        mRecyclerView.adapter = mAdapter
+        return mRecyclerView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
             createRequestFilter()
         }
         else {
-            listPropertyViewModel.getPropertys()?.observe(this, this::updateProperties)
+            mListPropertyViewModel.getPropertys()?.observe(this, this::updateProperties)
         }
     }
 
@@ -107,12 +107,12 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
             queryString += " interest_point LIKE '%$interest%'"
         }
         val query = SimpleSQLiteQuery(queryString)
-        listPropertyViewModel.getFilterProperties(query).observe(this, this::updateProperties)
+        mListPropertyViewModel.getFilterProperties(query).observe(this, this::updateProperties)
     }
 
     private fun updateProperties(databaseList: List<Property>) {
-        propertys.clear()
-        propertys.addAll(databaseList)
+        mProperties.clear()
+        mProperties.addAll(databaseList)
         mAdapter.notifyDataSetChanged()
     }
 
@@ -120,9 +120,9 @@ class ListPropertyFragment : Fragment(), OnItemClickListener {
         val injection = Injection::class.java
         val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(this.requireContext())
-        listPropertyViewModel = ViewModelProvider(this, mViewModelFactory)
+        mListPropertyViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(ListPropertyViewModel::class.java)
-        listPropertyViewModel.initPropertys()
+        mListPropertyViewModel.initPropertys()
     }
 
     override fun onItemClick(propertyId: Long) {

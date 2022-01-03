@@ -8,24 +8,24 @@ import com.openclassrooms.realestatemanager.databinding.ActivityLoanSimulatorBin
 
 class LoanSimulatorActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoanSimulatorBinding
+    private lateinit var mBinding: ActivityLoanSimulatorBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoanSimulatorBinding.inflate(layoutInflater)
-        val toolbar = binding.loanToolbar
+        mBinding = ActivityLoanSimulatorBinding.inflate(layoutInflater)
+        val toolbar = mBinding.loanToolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        val returnButton = binding.returnLoan
+        val returnButton = mBinding.returnLoan
         returnButton.setOnClickListener {
             onBackPressed()
         }
-        val amount = binding.amountInput
-        val rate = binding.rateInput
-        val input = binding.inputInput
-        val duration = binding.durationInput
-        val monthlyPayments = binding.monthlyPayment
-        val totalInput = binding.totalPayments
-        binding.button.setOnClickListener {
+        val amount = mBinding.amountInput
+        val rate = mBinding.rateInput
+        val input = mBinding.inputInput
+        val duration = mBinding.durationInput
+        val monthlyPayments = mBinding.monthlyPayment
+        val totalInput = mBinding.totalPayments
+        mBinding.button.setOnClickListener {
             if (amount.text.isNotEmpty() && rate.text.isNotEmpty() && input.text.isNotEmpty() && duration.text.isNotEmpty()) {
                 val calculation = ((amount.text.toString().toInt() - input.text.toString().toInt())*((rate.text.toString().toFloat()/100)+1))/duration.text.toString().toInt()
                 val total = calculation*duration.text.toString().toInt() + input.text.toString().toInt()
@@ -36,6 +36,6 @@ class LoanSimulatorActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.information_error, Toast.LENGTH_SHORT).show()
             }
         }
-        setContentView(binding.root)
+        setContentView(mBinding.root)
     }
 }

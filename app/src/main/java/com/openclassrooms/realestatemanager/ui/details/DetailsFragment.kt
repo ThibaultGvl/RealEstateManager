@@ -29,9 +29,9 @@ import java.net.URI
 
 class DetailsFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var detailsBinding: FragmentDetailsBinding
+    private lateinit var mDetailsBinding: FragmentDetailsBinding
 
-    private lateinit var detailsViewModel: DetailsViewModel
+    private lateinit var mDetailsViewModel: DetailsViewModel
 
     private var mPropertyId: Long = 1
 
@@ -65,8 +65,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        detailsBinding = FragmentDetailsBinding.inflate(layoutInflater)
-        val view = detailsBinding.root
+        mDetailsBinding = FragmentDetailsBinding.inflate(layoutInflater)
+        val view = mDetailsBinding.root
         val id = arguments?.getLong("id")
         if (id != null) {
             mPropertyId = id
@@ -74,10 +74,10 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         val injection = Injection::class.java
         val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(this.requireContext())
-        detailsViewModel = ViewModelProvider(this, mViewModelFactory)
+        mDetailsViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(DetailsViewModel::class.java)
         updateWithProperty(mPropertyId)
-        mFab = detailsBinding.fab
+        mFab = mDetailsBinding.fab
         mFab.setOnClickListener {
             val intent = Intent(activity?.applicationContext, InsertActivity::class.java)
             intent.putExtra("id", mPropertyId)
@@ -93,7 +93,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateWithProperty(id: Long) {
-        detailsViewModel.getPropertyById(id).observe(viewLifecycleOwner, this::getProperty)
+        mDetailsViewModel.getPropertyById(id).observe(viewLifecycleOwner, this::getProperty)
     }
 
     override fun onResume() {
@@ -104,16 +104,16 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     private fun getProperty(property: Property) {
         val photosUri: ArrayList<Uri> = getPhotos(property.photos)
         mAdapter = PhotosAdapter(photosUri)
-        mRecyclerView = detailsBinding.carouselView
+        mRecyclerView = mDetailsBinding.carouselView
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mRecyclerView.adapter = mAdapter
         val surface = property.surface.toString() + "m²"
-        detailsBinding.surface.text = surface
+        mDetailsBinding.surface.text = surface
         val price = property.price.toString() + "$"
-        detailsBinding.price.text = price
-        detailsBinding.description.text = property.description
-        detailsBinding.piece.text = property.piece.toString()
-        detailsBinding.position.text = property.address
+        mDetailsBinding.price.text = price
+        mDetailsBinding.description.text = property.description
+        mDetailsBinding.piece.text = property.piece.toString()
+        mDetailsBinding.position.text = property.address
         val location = getLocationFromAddress(context, property.address)
         location?.let { CameraUpdateFactory.newLatLngZoom(it, 15F) }?.let { mGoogleMap.moveCamera(it) }
         location?.let { MarkerOptions().position(it) }?.let { mGoogleMap.addMarker(it) }

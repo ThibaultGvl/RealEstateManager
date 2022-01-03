@@ -9,6 +9,7 @@ import android.widget.Adapter
 import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 
@@ -32,7 +33,7 @@ class PhotosAdapter(private val photos: ArrayList<Uri>) : RecyclerView.Adapter<P
         private val mImage: ImageView = itemView.findViewById(R.id.photo)
 
         fun updateWithPhoto(uri: Uri) {
-            Glide.with(mImage).load(uri).into(mImage)
+            Glide.with(mImage).load(uri).circleCrop().into(mImage)
         }
     }
 }

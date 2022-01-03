@@ -9,18 +9,18 @@ import java.io.Serializable
 
 class DetailsActivity : AppCompatActivity() {
 
-    private lateinit var activityDetailsBinding: ActivityDetailsBinding
+    private lateinit var mActivityDetailsBinding: ActivityDetailsBinding
 
-    private var propertyId: Long = 0
+    private var mPropertyId: Long = 0
 
     private lateinit var mDetailsFragment: DetailsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityDetailsBinding = ActivityDetailsBinding.inflate(layoutInflater)
-        val view = activityDetailsBinding.root
+        mActivityDetailsBinding = ActivityDetailsBinding.inflate(layoutInflater)
+        val view = mActivityDetailsBinding.root
         val property = intent.getStringExtra("id")
-        propertyId = property?.toLong()!!
+        mPropertyId = property?.toLong()!!
         setContentView(view)
         setFragment()
     }
@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity() {
     private fun setFragment() {
         mDetailsFragment = DetailsFragment()
         val bundle = Bundle()
-        bundle.putLong("id", propertyId)
+        bundle.putLong("id", mPropertyId)
         mDetailsFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_details, mDetailsFragment)

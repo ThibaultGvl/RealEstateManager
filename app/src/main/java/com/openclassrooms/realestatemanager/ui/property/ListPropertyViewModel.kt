@@ -3,25 +3,23 @@ package com.openclassrooms.realestatemanager.ui.property
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.database.PropertyRepository
 import com.openclassrooms.realestatemanager.model.Property
-import java.util.concurrent.Executor
 
 class ListPropertyViewModel(var repository: PropertyRepository) : ViewModel() {
 
-    var propertysMutableLiveData: LiveData<List<Property>>? = null
+    var mPropertiesMutableLiveData: LiveData<List<Property>>? = null
 
     fun initPropertys() {
-        if (propertysMutableLiveData != null) {
+        if (mPropertiesMutableLiveData != null) {
             return
         }
-        propertysMutableLiveData = repository.getPropertys()
+        mPropertiesMutableLiveData = repository.getPropertys()
     }
 
     fun getPropertys(): LiveData<List<Property>>? {
-        return propertysMutableLiveData
+        return mPropertiesMutableLiveData
     }
 
     fun getFilterProperties(query: SupportSQLiteQuery): LiveData<List<Property>> {

@@ -37,9 +37,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     lateinit var mLocationManager: LocationManager
 
-    lateinit var mapsViewModel: MapsViewModel
-
-    private var mProperties: ArrayList<com.openclassrooms.realestatemanager.model.Property> = ArrayList()
+    lateinit var mMapsViewModel: MapsViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -72,7 +70,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             val mLocationGPS: Location? = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             val latLng = mLocationGPS?.let { LatLng(it.latitude, mLocationGPS.longitude) }
             latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 17F) }?.let { mMap.moveCamera(it) }
-            mapsViewModel.getProperties()?.observe(viewLifecycleOwner, this::initProperties)
+            mMapsViewModel.getProperties()?.observe(viewLifecycleOwner, this::initProperties)
         } else {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     PERMISSION_ID)
@@ -90,8 +88,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val injection = Injection::class.java
         val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(this.requireContext())
-        mapsViewModel = ViewModelProvider(this, mViewModelFactory)
+        mMapsViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(MapsViewModel::class.java)
-        mapsViewModel.initProperties()
+        mMapsViewModel.initProperties()
     }
 }

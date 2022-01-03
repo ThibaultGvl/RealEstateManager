@@ -42,7 +42,7 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
         fun updateWithProperty(property: Property) {
             val photos = getPhotos(property.photos)
             if (photos.isNotEmpty()) {
-                Glide.with(mPicture).load(photos[0]).into(mPicture)
+                Glide.with(mPicture).load(photos[0]).circleCrop().into(mPicture)
             }
             else {
                 Glide.with(mPicture).load(R.drawable.ic_menu_gallery).into(mPicture)

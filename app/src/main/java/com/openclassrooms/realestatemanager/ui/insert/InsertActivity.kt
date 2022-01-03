@@ -38,8 +38,8 @@ import kotlin.math.absoluteValue
 class InsertActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityInsertBinding
-    private lateinit var insertViewModel: InsertViewModel
-    private var id: Long = 0
+    private lateinit var mInsertViewModel: InsertViewModel
+    private var mId: Long = 0
     private var mPhotos = ArrayList<Uri>()
     private lateinit var mEditType: EditText
     private lateinit var mEditAddress: EditText
@@ -69,14 +69,14 @@ class InsertActivity : AppCompatActivity() {
         val injection = Injection::class.java
         val mViewModelFactory = injection.newInstance()
                 .provideViewModelFactory(applicationContext)
-        insertViewModel = ViewModelProvider(this, mViewModelFactory)
+        mInsertViewModel = ViewModelProvider(this, mViewModelFactory)
                 .get(InsertViewModel::class.java)
         createView()
-        insertViewModel.getProperties().observe(this, { id = it.size.toLong() + 1 })
+        mInsertViewModel.getProperties().observe(this, { mId = it.size.toLong() + 1 })
         setContentView(view)
         if (intent.extras != null) {
             mPropertyId = intent.extras?.getLong("id")!!
-            insertViewModel.getPropertyById(mPropertyId)
+            mInsertViewModel.getPropertyById(mPropertyId)
                     .observe(this, this::getPropertyToModify)
         }
         mButtonGallery.setOnClickListener{
@@ -165,7 +165,7 @@ class InsertActivity : AppCompatActivity() {
                     photos.toString(),
                     mEditAgent.text.toString()
             )
-            insertViewModel.updateProperty(updateProperty)
+            mInsertViewModel.updateProperty(updateProperty)
             sendVisualNotification(getString(R.string.update_notification_message))
             finish()
         }
@@ -194,7 +194,7 @@ class InsertActivity : AppCompatActivity() {
             }
         }
         val date = "$mEditDay/$mEditMonth/$mEditYear"
-        val property = Property(id,
+        val property = Property(mId,
                 mEditType.text.toString(),
                 mEditPrice.text.toString().toInt(),
                 mEditSurface.text.toString().toInt(),
@@ -207,7 +207,7 @@ class InsertActivity : AppCompatActivity() {
                 date,
                 photos.toString(),
                 mEditAgent.text.toString())
-        insertViewModel.createProperty(property)
+        mInsertViewModel.createProperty(property)
         sendVisualNotification(getString(R.string.created_notification_message))
         finish()
     }

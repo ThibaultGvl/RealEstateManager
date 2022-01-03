@@ -8,16 +8,16 @@ import java.util.concurrent.Executor
 
 class MapsViewModel(var propertyRepository: PropertyRepository, var executor: Executor): ViewModel() {
 
-    var propertiesMutableLiveData: LiveData<List<Property>>? = null
+    var mPropertiesMutableLiveData: LiveData<List<Property>>? = null
 
     fun initProperties() {
-        if (propertiesMutableLiveData != null) {
+        if (mPropertiesMutableLiveData != null) {
             return
         }
-        propertiesMutableLiveData = propertyRepository.getPropertys()
+        mPropertiesMutableLiveData = propertyRepository.getPropertys()
     }
 
     fun getProperties(): LiveData<List<Property>>? {
-        return propertiesMutableLiveData
+        return mPropertiesMutableLiveData
     }
 }
