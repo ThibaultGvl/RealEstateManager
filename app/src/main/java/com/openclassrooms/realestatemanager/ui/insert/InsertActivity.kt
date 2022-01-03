@@ -105,12 +105,16 @@ class InsertActivity : AppCompatActivity() {
                 "15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
         val month = arrayOf("01","02","03","04","05","06","07","08","09","10","11","12")
         val actualYear = Calendar.getInstance().get(Calendar.YEAR)
-        val year = arrayOf((actualYear.absoluteValue -1).toString(),actualYear.absoluteValue.toString(),(actualYear.absoluteValue+1).toString())
+        val year = arrayOf((actualYear.absoluteValue -1).toString(),
+                actualYear.absoluteValue.toString(),(actualYear.absoluteValue+1).toString())
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, array)
-        val dayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, days)
-        val monthAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, month)
-        val yearAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, year)
+        val dayAdapter: ArrayAdapter<String> =
+                ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, days)
+        val monthAdapter: ArrayAdapter<String> =
+                ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, month)
+        val yearAdapter: ArrayAdapter<String> =
+                ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, year)
         mEditDay.adapter = dayAdapter
         mEditMonth.adapter = monthAdapter
         mEditYear.adapter = yearAdapter
@@ -123,7 +127,8 @@ class InsertActivity : AppCompatActivity() {
                 createNewProperty()
             }
             else {
-                Toast.makeText(baseContext, getString(R.string.information_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, getString(R.string.information_error),
+                        Toast.LENGTH_SHORT).show()
             }
         }
         val toolbar = mBinding.insertToolbar
@@ -213,8 +218,11 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun selectImageInAlbum() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+        if (ActivityCompat.checkSelfPermission
+                (this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     PERMISSION_ID)
         }
         else {
@@ -225,8 +233,11 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun takePhoto() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+        if (ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     PERMISSION_ID)
         }
         else {
@@ -234,7 +245,8 @@ class InsertActivity : AppCompatActivity() {
             val file: File = File.createTempFile(
                     "IMG_", ".jpg",
                     applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-            mUri = FileProvider.getUriForFile(this, "com.openclassrooms.realestatemanager.provider", file)
+            mUri = FileProvider.getUriForFile(this,
+                    "com.openclassrooms.realestatemanager.provider", file)
             m_intent.putExtra(EXTRA_OUTPUT, mUri)
             startActivityForResult(m_intent, REQUEST_TAKE_PHOTO)
         }
@@ -247,13 +259,16 @@ class InsertActivity : AppCompatActivity() {
                 (this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
                 val uri = data?.data
-                val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+                val takeFlags = data?.flags?.and((Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
                 if (uri != null && takeFlags != null) {
                     this.contentResolver.takePersistableUriPermission(uri, takeFlags)
                     updateWithPhoto(uri)
                 }
             }
-        if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_TAKE_PHOTO && ActivityCompat
+                        .checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
                 updateWithPhoto(mUri)
         }
      }
@@ -264,9 +279,11 @@ class InsertActivity : AppCompatActivity() {
 
     private fun sendVisualNotification(message: String) {
         val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT)
         val channelId = "CREATION_NOTIFICATION"
-        val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
+        val notificationBuilder: NotificationCompat.Builder = NotificationCompat
+                .Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(message)

@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/map_fragment"
         app:layout_constraintEnd_toEndOf="@+id/map_fragment"
         android:src="@drawable/ic_baseline_location_on_24"
-        android:tint ="#FFF"
+        android:tint ="@color/white"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

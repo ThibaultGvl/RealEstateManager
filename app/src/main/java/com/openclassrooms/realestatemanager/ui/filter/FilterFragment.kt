@@ -28,12 +28,18 @@ class FilterFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         mBinding = FragmentFilterBinding.inflate(inflater)
         mBinding.buttonFilter.setOnClickListener {
-            val type = if(mBinding.typeEdit.text.isNotEmpty()){mBinding.typeEdit.text.toString()} else {" "}
-            val priceMin = if(mBinding.priceMin.text.isNotEmpty()){mBinding.priceMin.text.toString().toInt()}else{0}
-            val priceMax = if(mBinding.priceMax.text.isNotEmpty()){mBinding.priceMax.text.toString().toInt()}else{0}
-            val surfaceMin = if(mBinding.surfaceMin.text.isNotEmpty()){mBinding.surfaceMin.text.toString().toInt()}else{0}
-            val surfaceMax = if(mBinding.surfaceMax.text.isNotEmpty()){mBinding.surfaceMax.text.toString().toInt()}else{0}
-            val interestPointEdit = if(mBinding.interestPointEdit.text.isNotEmpty()){mBinding.interestPointEdit.text.toString()}else{" "}
+            val type = if(mBinding.typeEdit.text.isNotEmpty()){mBinding.typeEdit.text.toString()}
+            else {" "}
+            val priceMin = if(mBinding.priceMin.text.isNotEmpty()){mBinding.priceMin.text.toString()
+                    .toInt()}else{0}
+            val priceMax = if(mBinding.priceMax.text.isNotEmpty()){mBinding.priceMax.text.toString()
+                    .toInt()}else{0}
+            val surfaceMin = if(mBinding.surfaceMin.text.isNotEmpty()){mBinding.surfaceMin.text
+                    .toString().toInt()}else{0}
+            val surfaceMax = if(mBinding.surfaceMax.text.isNotEmpty()){mBinding.surfaceMax.text
+                    .toString().toInt()}else{0}
+            val interestPointEdit = if(mBinding.interestPointEdit.text.isNotEmpty())
+            {mBinding.interestPointEdit.text.toString()}else{" "}
             val filter = Filter(type,
                     priceMin,
                     priceMax,

@@ -41,7 +41,8 @@ class PropertyContentProvider : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (context != null && values != null){
-            val index  = Database.getInstance(context!!).propertyDao.insertProperty(Property().fromContentValues(values))
+            val index  = Database.getInstance(context!!).propertyDao.insertProperty(Property()
+                    .fromContentValues(values))
             if (index != 0L){
                 context!!.contentResolver.notifyChange(uri,null)
                 return ContentUris.withAppendedId(uri,index)
@@ -54,7 +55,8 @@ class PropertyContentProvider : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
         if (context != null) {
 
-            val count = Database.getInstance(context!!).propertyDao.deleteProperty(ContentUris.parseId(uri))
+            val count = Database.getInstance(context!!).propertyDao.deleteProperty(ContentUris
+                    .parseId(uri))
 
             context!!.contentResolver.notifyChange(uri, null)
 
@@ -72,7 +74,8 @@ class PropertyContentProvider : ContentProvider() {
             selectionArgs: Array<out String>?
     ): Int {
         if (context != null && values != null){
-            val count = Database.getInstance(context!!).propertyDao.updateProperty(Property().fromContentValues(values))
+            val count = Database.getInstance(context!!).propertyDao.updateProperty(Property()
+                    .fromContentValues(values))
             context!!.contentResolver.notifyChange(uri,null)
             return count.toString().toInt()
         }

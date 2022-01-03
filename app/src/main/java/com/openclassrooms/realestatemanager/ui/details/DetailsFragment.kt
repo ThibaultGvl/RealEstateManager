@@ -88,7 +88,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         updateWithProperty(mPropertyId)
-        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)?.getMapAsync(this)
+        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)
+                ?.getMapAsync(this)
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -105,7 +106,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         val photosUri: ArrayList<Uri> = getPhotos(property.photos)
         mAdapter = PhotosAdapter(photosUri)
         mRecyclerView = mDetailsBinding.carouselView
-        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
+                false)
         mRecyclerView.adapter = mAdapter
         val surface = property.surface.toString() + "m²"
         mDetailsBinding.surface.text = surface
@@ -115,7 +117,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         mDetailsBinding.piece.text = property.piece.toString()
         mDetailsBinding.position.text = property.address
         val location = getLocationFromAddress(context, property.address)
-        location?.let { CameraUpdateFactory.newLatLngZoom(it, 15F) }?.let { mGoogleMap.moveCamera(it) }
+        location?.let { CameraUpdateFactory.newLatLngZoom(it, 15F) }
+                ?.let { mGoogleMap.moveCamera(it) }
         location?.let { MarkerOptions().position(it) }?.let { mGoogleMap.addMarker(it) }
     }
 
@@ -145,7 +148,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     private fun getPhotos(photosProperty: String): ArrayList<Uri>{
         val photosUri = ArrayList<Uri>()
         val photosString = photosProperty
-        val photoStringArray = photosString.trim().splitToSequence(',').filter { it.isNotEmpty() }
+        val photoStringArray = photosString.trim().splitToSequence(',')
+                .filter { it.isNotEmpty() }
                 .toList()
         for (photo in photoStringArray) {
             var photoToAdd = photo

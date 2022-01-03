@@ -7,7 +7,7 @@ import com.openclassrooms.realestatemanager.database.PropertyRepository
 import com.openclassrooms.realestatemanager.model.Property
 import java.util.concurrent.Executor
 
-class DetailsViewModel(var propertyRepository: PropertyRepository, executor: Executor) : ViewModel() {
+class DetailsViewModel(var propertyRepository: PropertyRepository, executor: Executor):ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "Media"

@@ -20,7 +20,8 @@ class DaoTest {
     @Before
     @Throws(Exception::class)
     fun initDataBase() {
-        mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context,Database::class.java)
+        mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation()
+                .context,Database::class.java)
                 .allowMainThreadQueries()
                 .build()
     }

@@ -14,7 +14,7 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="@dimen/margin_filter_default"
+        android:layout_margin="@dimen/margin_big"
         android:paddingTop="?attr/actionBarSize"/>
 
     <EditText
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/surface_text"
         android:autofillHints="Max"
-        android:layout_marginEnd="@dimen/margin_filter_default"
+        android:layout_marginEnd="@dimen/margin_big"
         android:inputType="number" />
 
     <TextView
@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/price"
         android:autofillHints="Max"
-        android:layout_marginEnd="@dimen/margin_filter_default"
+        android:layout_marginEnd="@dimen/margin_big"
         android:inputType="number" />
 
     <TextView

@@ -25,8 +25,10 @@ public class ConnectivityTest {
 
     @Before
     public void setUp() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        mShadowOfActiveNetworkInfo = shadowOf(Objects.requireNonNull(connectivityManager).getActiveNetworkInfo());
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        mShadowOfActiveNetworkInfo = shadowOf(Objects.requireNonNull(connectivityManager)
+                .getActiveNetworkInfo());
     }
 
     @Test

@@ -42,12 +42,16 @@ data class Property(@PrimaryKey(autoGenerate = true)
         if (values.containsKey("price")) property.price = values.getAsInteger("price")
         if (values.containsKey("surface")) property.surface = values.getAsInteger("surface")
         if (values.containsKey("piece")) property.piece = values.getAsInteger("piece")
-        if (values.containsKey("description")) property.description = values.getAsString("description")
+        if (values.containsKey("description")) property.description = values
+                .getAsString("description")
         if (values.containsKey("address")) property.address = values.getAsString("address")
-        if (values.containsKey("interest_point")) property.interestPoint = values.getAsString("interest_point")
+        if (values.containsKey("interest_point")) property.interestPoint = values
+                .getAsString("interest_point")
         if (values.containsKey("status")) property.status = values.getAsString("status")
-        if (values.containsKey("creation_date")) property.creationDate = values.getAsString("creation_date")
-        if (values.containsKey("sell_date")) property.sellDate = values.getAsString("sell_date")
+        if (values.containsKey("creation_date")) property.creationDate = values
+                .getAsString("creation_date")
+        if (values.containsKey("sell_date")) property.sellDate = values
+                .getAsString("sell_date")
         if (values.containsKey("photos")) property.photos = values.getAsString("photos")
         if (values.containsKey("agent")) property.agent = values.getAsString("agent")
         return property

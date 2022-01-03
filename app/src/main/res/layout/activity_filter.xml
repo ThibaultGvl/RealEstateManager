@@ -13,7 +13,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="#FFFFFF">
+        app:titleTextColor="@color/white">
 
         <ImageButton
             android:id="@+id/return_filter"

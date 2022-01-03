@@ -16,13 +16,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/media"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size"
             android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/carouselView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="@dimen/carousel_height"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/media"
             android:orientation="horizontal"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@id/carouselView"
             android:text="@string/description"
             android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/text_size"/>
 
         <TextView
             android:id="@+id/description"
@@ -65,8 +65,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/location"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginStart="@dimen/margin_details"/>
+            android:textSize="@dimen/text_size"
+            android:layout_marginStart="@dimen/margin_big"/>
 
         <TextView
             android:id="@+id/position"
@@ -92,8 +92,8 @@
             app:layout_constraintStart_toStartOf="@id/position_title"
             android:text="@string/price"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginEnd="20dp"/>
+            android:textSize="@dimen/text_size"
+            android:layout_marginEnd="@dimen/margin_big"/>
 
         <TextView
             android:id="@+id/price"
@@ -119,8 +119,8 @@
             app:layout_constraintTop_toBottomOf="@id/description"
             android:text="@string/surface"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginEnd="@dimen/margin_details"/>
+            android:textSize="@dimen/text_size"
+            android:layout_marginEnd="@dimen/margin_big"/>
 
         <TextView
             android:id="@+id/surface"
@@ -146,8 +146,8 @@
             app:layout_constraintTop_toBottomOf="@id/surface"
             android:text="@string/piece"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginEnd="@dimen/margin_details"/>
+            android:textSize="@dimen/text_size"
+            android:layout_marginEnd="@dimen/margin_big"/>
 
         <TextView
             android:id="@+id/piece"
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="30dp"
+            android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_baseline_mode_24"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,7 +13,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="#FFFFFF">
+        app:titleTextColor="@color/white">
 
         <ImageButton
             android:id="@+id/return_loan"
@@ -30,27 +30,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loan_toolbar"
         android:text="@string/loan_presentation"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_size"
         android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/input_input"
+        android:id="@+id/contribution_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loan_text"
         android:inputType="number"
-        android:hint="@string/input"/>
+        android:hint="@string/contribution"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/contribution_input"
+        app:layout_constraintTop_toTopOf="@id/contribution_input"
+        app:layout_constraintBottom_toBottomOf="@id/contribution_input"
+        android:textSize="@dimen/text_size"
+        android:text="@string/money"/>
 
     <EditText
         android:id="@+id/rate_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/input_input"
+        app:layout_constraintStart_toEndOf="@id/contribution_input"
         app:layout_constraintEnd_toStartOf="@id/amount_input"
-        app:layout_constraintTop_toTopOf="@id/input_input"
+        app:layout_constraintTop_toTopOf="@id/contribution_input"
         android:inputType="number"
         android:hint="@string/rate"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/rate_input"
+        app:layout_constraintTop_toTopOf="@id/rate_input"
+        app:layout_constraintBottom_toBottomOf="@id/rate_input"
+        android:textSize="@dimen/text_size"
+        android:text="@string/percent"/>
 
     <EditText
         android:id="@+id/amount_input"
@@ -58,18 +76,28 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/rate_input"
         app:layout_constraintEnd_toStartOf="@id/duration_input"
-        app:layout_constraintTop_toTopOf="@id/input_input"
+        app:layout_constraintTop_toTopOf="@id/contribution_input"
         android:inputType="number"
         android:hint="@string/amount"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/amount_input"
+            app:layout_constraintTop_toTopOf="@id/amount_input"
+        app:layout_constraintBottom_toBottomOf="@id/amount_input"
+        android:textSize="@dimen/text_size"
+        android:text="@string/money"/>
 
     <EditText
         android:id="@+id/duration_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/input_input"
+        app:layout_constraintTop_toTopOf="@id/contribution_input"
         android:inputType="number"
         android:hint="@string/duration"/>
+
 
     <Button
         android:id="@+id/button"

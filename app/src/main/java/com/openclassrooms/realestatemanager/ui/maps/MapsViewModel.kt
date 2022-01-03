@@ -6,7 +6,7 @@ import com.openclassrooms.realestatemanager.database.PropertyRepository
 import com.openclassrooms.realestatemanager.model.Property
 import java.util.concurrent.Executor
 
-class MapsViewModel(var propertyRepository: PropertyRepository, var executor: Executor): ViewModel() {
+class MapsViewModel(var propertyRepository: PropertyRepository, var executor: Executor):ViewModel(){
 
     var mPropertiesMutableLiveData: LiveData<List<Property>>? = null
 

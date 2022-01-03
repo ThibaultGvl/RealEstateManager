@@ -26,7 +26,8 @@ abstract class Database: RoomDatabase() {
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.applicationContext,
                             com.openclassrooms.realestatemanager.database.Database::class.java,
-                            "Db").fallbackToDestructiveMigration().addCallback(prepopulateDataBase())
+                            "Db").fallbackToDestructiveMigration()
+                            .addCallback(prepopulateDataBase())
                             .allowMainThreadQueries()
                             .build()
                     mInstance = instance
@@ -60,9 +61,9 @@ abstract class Database: RoomDatabase() {
                     house.put("price", 5400000)
                     house.put("surface", 205)
                     house.put("piece", 5)
-                    house.put("description", "A charming house in a very calm village with old " +
-                        "fashion style. He's also near from all, it will be very easy to live here " +
-                            "every days")
+                    house.put("description", "A charming house in a very calm village with " +
+                            "old fashion style. He's also near from all, it will be very easy to" +
+                            " live here every days")
                     house.put("address", "Albi")
                     house.put("status", "For Sale")
                     house.put("interest_point", "Cinema, Bakery")

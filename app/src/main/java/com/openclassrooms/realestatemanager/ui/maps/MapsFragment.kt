@@ -54,7 +54,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment?
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as
+                SupportMapFragment?
         mapFragment?.getMapAsync(this)
         mLocationManager = context?.getSystemService(Context.LOCATION_SERVICE)!! as LocationManager
     }
@@ -65,14 +66,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getLocationPermission(){
-        if ((context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } == PackageManager.PERMISSION_GRANTED && context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } == PackageManager.PERMISSION_GRANTED)) {
+        if ((context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission
+                        .ACCESS_FINE_LOCATION) } == PackageManager.PERMISSION_GRANTED && context
+                        ?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission
+                                .ACCESS_COARSE_LOCATION) } == PackageManager.PERMISSION_GRANTED)) {
             mLocationPermission = true
-            val mLocationGPS: Location? = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            val mLocationGPS: Location? = mLocationManager
+                    .getLastKnownLocation(LocationManager.GPS_PROVIDER)
             val latLng = mLocationGPS?.let { LatLng(it.latitude, mLocationGPS.longitude) }
-            latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 17F) }?.let { mMap.moveCamera(it) }
+            latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 17F) }
+                    ?.let { mMap.moveCamera(it) }
             mMapsViewModel.getProperties()?.observe(viewLifecycleOwner, this::initProperties)
         } else {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission
+                    .ACCESS_FINE_LOCATION),
                     PERMISSION_ID)
         }
     }

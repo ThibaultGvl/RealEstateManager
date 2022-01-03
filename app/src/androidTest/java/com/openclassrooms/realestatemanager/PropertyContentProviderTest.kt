@@ -28,7 +28,8 @@ class PropertyContentProviderTest {
 
     @Before
     fun setUp(){
-        mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context,Database::class.java)
+        mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation()
+                .context,Database::class.java)
                 .allowMainThreadQueries()
                 .build()
         mContentResolver = InstrumentationRegistry.getInstrumentation().context.contentResolver
@@ -36,7 +37,9 @@ class PropertyContentProviderTest {
 
     @Test
     fun getItemsWhenNoItemInserted(){
-        val cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider().URI_ITEM, NO_PROPERTY_ID),null,null,null,null)
+        val cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider()
+                .URI_ITEM, NO_PROPERTY_ID),null,null,null,
+                null)
         assertNotNull(cursor)
         assertEquals(0, cursor?.count)
         cursor?.close()
@@ -46,13 +49,14 @@ class PropertyContentProviderTest {
     fun insertAndGetItem(){
         mContentResolver.insert(PropertyContentProvider().URI_ITEM, generateProperty())
 
-        val cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider().URI_ITEM, PROPERTY_ID), null,null,null,null)
+        val cursor = mContentResolver.query(ContentUris
+                .withAppendedId(PropertyContentProvider().URI_ITEM, PROPERTY_ID),
+                null,null,null,null)
         assertNotNull(cursor)
         assertEquals(1,cursor?.count)
         assertEquals(true,cursor?.moveToFirst())
         assertEquals("Loft",cursor?.getString(cursor.getColumnIndexOrThrow("type")))
         cursor?.close()
-        //Error photos 
     }
 
     private fun generateProperty():ContentValues{

@@ -7,7 +7,7 @@ import com.openclassrooms.realestatemanager.database.PropertyRepository
 import com.openclassrooms.realestatemanager.model.Property
 import java.util.concurrent.Executor
 
-class InsertViewModel(var propertyRepository: PropertyRepository, var executor: Executor): ViewModel() {
+class InsertViewModel(var propertyRepository:PropertyRepository, var executor:Executor):ViewModel(){
 
     fun createProperty(property: Property) {
         executor.execute{propertyRepository.insertProperty(property)}

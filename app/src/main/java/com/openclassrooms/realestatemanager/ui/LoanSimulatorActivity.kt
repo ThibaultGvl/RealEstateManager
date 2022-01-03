@@ -21,19 +21,25 @@ class LoanSimulatorActivity : AppCompatActivity() {
         }
         val amount = mBinding.amountInput
         val rate = mBinding.rateInput
-        val input = mBinding.inputInput
+        val contribution = mBinding.contributionInput
         val duration = mBinding.durationInput
         val monthlyPayments = mBinding.monthlyPayment
         val totalInput = mBinding.totalPayments
         mBinding.button.setOnClickListener {
-            if (amount.text.isNotEmpty() && rate.text.isNotEmpty() && input.text.isNotEmpty() && duration.text.isNotEmpty()) {
-                val calculation = ((amount.text.toString().toInt() - input.text.toString().toInt())*((rate.text.toString().toFloat()/100)+1))/duration.text.toString().toInt()
-                val total = calculation*duration.text.toString().toInt() + input.text.toString().toInt()
-                "You will have to paid $calculation for ${duration.text} month".also { monthlyPayments.text = it }
+            if (amount.text.isNotEmpty() && rate.text.isNotEmpty() && contribution.text.isNotEmpty()
+                    && duration.text.isNotEmpty()) {
+                val calculation = ((amount.text.toString().toInt() - contribution.text.toString()
+                        .toInt())*((rate.text.toString().toFloat()/100)+1))/duration.text.toString()
+                        .toInt()
+                val total = calculation*duration.text.toString().toInt() + contribution.text
+                        .toString().toInt()
+                "You will have to paid $calculation for ${duration.text} month"
+                        .also { monthlyPayments.text = it }
                 "You will invest $total in total".also { totalInput.text = it }
             }
             else {
-                Toast.makeText(this, R.string.information_error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.information_error,
+                        Toast.LENGTH_SHORT).show()
             }
         }
         setContentView(mBinding.root)

@@ -13,7 +13,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 
-class PhotosAdapter(private val photos: ArrayList<Uri>) : RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>(){
+class PhotosAdapter(private val photos: ArrayList<Uri>) : RecyclerView.Adapter<PhotosAdapter
+.PhotoViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val detailsFragmentDetailsBinding = LayoutInflater.from(parent.context)

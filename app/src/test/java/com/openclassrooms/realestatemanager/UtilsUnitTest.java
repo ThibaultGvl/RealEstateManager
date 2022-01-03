@@ -24,7 +24,8 @@ public class UtilsUnitTest {
 
     @Test
     public void dollarsToEuros() {
-        assertEquals(Utils.convertDollarToEuro(15000), 13188);
+        assertEquals(Utils.convertDollarToEuro(15000),
+                13188);
     }
 
     @Test

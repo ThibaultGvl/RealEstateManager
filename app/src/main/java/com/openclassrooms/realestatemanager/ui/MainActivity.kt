@@ -64,7 +64,8 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.action_add -> startIntentActivity()
-            R.id.action_filter -> startActivity(Intent(this, FilterActivity::class.java))
+            R.id.action_filter -> startActivity(Intent(this,
+                    FilterActivity::class.java))
         }
 
         return super.onOptionsItemSelected(item)
