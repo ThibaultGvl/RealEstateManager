@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.model
 
 import android.content.ContentValues
+import android.net.Uri
+import android.webkit.URLUtil
 import androidx.room.*
 
 
@@ -55,5 +57,31 @@ data class Property(@PrimaryKey(autoGenerate = true)
         if (values.containsKey("photos")) property.photos = values.getAsString("photos")
         if (values.containsKey("agent")) property.agent = values.getAsString("agent")
         return property
+    }
+
+    fun getPhotos(photosProperty: String): ArrayList<Uri>{
+        val photosUri = ArrayList<Uri>()
+        val photoStringArray = photosProperty.trim().splitToSequence(',')
+                .filter { it.isNotEmpty() }.toList()
+        for (photo in photoStringArray) {
+            var photoToAdd = photo
+            for (char in photo) {
+                photoToAdd = when {
+                    char.toString() == "[" -> {
+                        photoToAdd.replace("[","")
+                    }
+                    char.toString() == "]" -> {
+                        photoToAdd.replace("]","")
+                    }
+                    else -> {
+                        photoToAdd.replace(" ", "")
+                    }
+                }
+            }
+            if (photoToAdd.isNotEmpty() && URLUtil.isValidUrl(photoToAdd)) {
+                photosUri.add(Uri.parse(photoToAdd))
+            }
+        }
+        return photosUri
     }
 }

@@ -40,7 +40,7 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
         private val mPrice: TextView = itemView.findViewById(R.id.price)
 
         fun updateWithProperty(property: Property) {
-            val photos = getPhotos(property.photos)
+            val photos = Property().getPhotos(property.photos)
             if (photos.isNotEmpty()) {
                 Glide.with(mPicture).load(photos[0]).circleCrop().into(mPicture)
             }
@@ -51,32 +51,6 @@ class ListPropertyAdapter(private val listProperties: List<Property>,
             mPrice.text = price
             mPlace.text = property.address
             mType.text = property.type
-        }
-        private fun getPhotos(photosProperty: String): ArrayList<Uri>{
-            val photosUri = ArrayList<Uri>()
-            val photosString = photosProperty
-            val photoStringArray = photosString.trim().splitToSequence(',')
-                    .filter { it.isNotEmpty() }.toList()
-            for (photo in photoStringArray) {
-                var photoToAdd = photo
-                for (char in photo) {
-                    photoToAdd = when {
-                        char.toString() == "[" -> {
-                            photoToAdd.replace("[","")
-                        }
-                        char.toString() == "]" -> {
-                            photoToAdd.replace("]","")
-                        }
-                        else -> {
-                            photoToAdd.replace(" ", "")
-                        }
-                    }
-                }
-                if (photoToAdd.isNotEmpty() && URLUtil.isValidUrl(photoToAdd)) {
-                    photosUri.add(Uri.parse(photoToAdd))
-                }
-            }
-            return photosUri
         }
     }
 }

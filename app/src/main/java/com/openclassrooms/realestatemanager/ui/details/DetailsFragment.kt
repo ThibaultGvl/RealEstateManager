@@ -103,7 +103,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getProperty(property: Property) {
-        val photosUri: ArrayList<Uri> = getPhotos(property.photos)
+        val photosUri: ArrayList<Uri> = Property().getPhotos(property.photos)
         mAdapter = PhotosAdapter(photosUri)
         mRecyclerView = mDetailsBinding.carouselView
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
@@ -143,33 +143,5 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             ex.printStackTrace()
         }
         return p1
-    }
-
-    private fun getPhotos(photosProperty: String): ArrayList<Uri>{
-        val photosUri = ArrayList<Uri>()
-        val photosString = photosProperty
-        val photoStringArray = photosString.trim().splitToSequence(',')
-                .filter { it.isNotEmpty() }
-                .toList()
-        for (photo in photoStringArray) {
-            var photoToAdd = photo
-            for (char in photo) {
-                photoToAdd = when {
-                    char.toString() == "[" -> {
-                        photoToAdd.replace("[","")
-                    }
-                    char.toString() == "]" -> {
-                        photoToAdd.replace("]","")
-                    }
-                    else -> {
-                        photoToAdd.replace(" ", "")
-                    }
-                }
-            }
-            if (photoToAdd.isNotEmpty() && URLUtil.isValidUrl(photoToAdd)) {
-                photosUri.add(Uri.parse(photoToAdd))
-            }
-        }
-        return photosUri
     }
 }
