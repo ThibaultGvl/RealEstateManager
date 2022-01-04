@@ -16,6 +16,7 @@ import org.robolectric.shadows.ShadowNetworkInfo;
 import java.util.Objects;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static com.google.common.truth.Truth.assertThat;
 import static org.robolectric.Shadows.shadowOf;
 
 @Config(sdk = {Build.VERSION_CODES.O_MR1})
@@ -34,18 +35,18 @@ public class ConnectivityTest {
     @Test
     public void isConnected() {
         mShadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
-        assert(Utils.isInternetAvailable(getApplicationContext()));
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isTrue();
     }
 
     @Test
     public void isConnecting() {
         mShadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTING);
-        assert(!Utils.isInternetAvailable(getApplicationContext()));
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isFalse();
     }
 
     @Test
     public void isDisconnected() {
         mShadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.DISCONNECTED);
-        assert(!Utils.isInternetAvailable(getApplicationContext()));
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isFalse();
     }
 }
