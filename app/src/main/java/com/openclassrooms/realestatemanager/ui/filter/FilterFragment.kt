@@ -11,16 +11,6 @@ import com.openclassrooms.realestatemanager.databinding.FragmentFilterBinding
 import com.openclassrooms.realestatemanager.model.Filter
 import com.openclassrooms.realestatemanager.ui.MainActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FilterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FilterFragment : Fragment() {
     private lateinit var mBinding: FragmentFilterBinding
 
@@ -51,15 +41,5 @@ class FilterFragment : Fragment() {
             startActivity(intent)
         }
         return mBinding.root
-    }
-
-    companion object {
-        fun newInstance(param1: String, param2: String) =
-                FilterFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
     }
 }
